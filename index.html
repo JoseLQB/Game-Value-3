@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>📚 Mi Biblioteca de Juegos</title>
+    <link rel="stylesheet" href="styles/main.css" />
+  </head>
+  <body>
+    <header>
+      <div class="wrap">
+        <h1>📚 Mi Biblioteca de Juegos</h1>
+        <div class="controls" aria-label="Controles de filtrado y ordenación">
+          <label class="search" title="Buscar por título (⌘/Ctrl + K)">
+            🔎 <input id="q" placeholder="Buscar por título…" autocomplete="off" />
+          </label>
+          <select id="yearSel" title="Filtrar por año">
+            <option value="all">Todos los años</option>
+          </select>
+          <select id="platformSel" multiple title="Filtrar por plataforma (multi)"></select>
+          <select id="sortSel" title="Ordenar">
+            <option value="doc" selected>Orden: Documento</option>
+            <option value="year-desc">Orden: Año ↓</option>
+            <option value="year-asc">Orden: Año ↑</option>
+            <option value="title-asc">Orden: Título A→Z</option>
+            <option value="score-desc">Orden: Nota ↓</option>
+            <option value="score-asc">Orden: Nota ↑</option>
+          </select>
+          <label class="score-filter">
+            <span>Nota mínima</span>
+            <input id="minScore" type="range" min="0" max="10" step="0.5" value="0" />
+            <span id="minScoreVal" class="kbd">0</span>
+          </label>
+        </div>
+        <div class="meta" id="meta"></div>
+        <div class="chips" id="chips"></div>
+      </div>
+    </header>
+
+    <main class="wrap" id="app"></main>
+
+    <div class="stickyfoot">
+      💡 Truco: pulsa <span class="kbd">⌘/Ctrl</span> + <span class="kbd">K</span> para buscar.
+    </div>
+
+    <script type="module">
+      import { RAW } from './scripts/data.js';
+      import { parseRaw } from './scripts/parser.js';
+      import { initApp } from './scripts/main.js';
+
+      const GAMES = parseRaw(RAW);
+      initApp(GAMES);
+    </script>
+  </body>
+</html>

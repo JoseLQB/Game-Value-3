@@ -1,0 +1,401 @@
+export const RAW = `
+2014
+-Devil May Cry: DMC (PS3)-------------------------------8,5
+-Zelda: Majora s Mask (N64)-----------------------------9,5 
+-Castle of Illusion: Starring Mickey Mouse (PS3)--------7,5
+-Metal Gear Solid V: Ground Zeroes (PS3)----------------8,5
+-Bioshock: Infinite (PS3)-------------------------------10 
+-Hotline Miami (PS3)------------------------------------8,5 
+-Dragon Ball: Revenge of King Piccolo (Wii)-------------8 
+-Portal (PC)--------------------------------------------9,5
+-Metroid: Zero Mission (GBA)----------------------------9 
+-Donkey Kong Country (GBA)------------------------------9 
+-Evoland (PC)-------------------------------------------8,5
+-Donkey Kong  Country Returns (Wii)---------------------9,5
+-Metal Gear Solid: The Twin Snakes (GCN)----------------8,5
+-Batman: Arckam Asylum (PC)-----------------------------9
+-Sleeping Dogs (PS3)------------------------------------8,5
+-Dead Space (PC)----------------------------------------6,5
+-Zelda Wind Waker (GCN)---------------------------------9,5
+-Mass Effect (PS3)--------------------------------------9
+-Tomb Raider (PS3)--------------------------------------9
+-Mario Kart 8 (Wii U)-----------------------------------10
+-Bioshock Panteón Marino Episodio 1 (PS3)---------------8
+-Bayonetta (PS3)----------------------------------------10
+-Assassins Creed 2 (PS3)--------------------------------8
+-Bayonetta 2 (Wii U)------------------------------------10
+-The Last of Us (PS3)-----------------------------------10
+-Bioshock Panteón Marino Episodio 2 (PS3)---------------9
+-The Last of Us: Left Behind (PS3)----------------------10
+
+2015
+-God of War 2 (PS3)-------------------------------------8,5
+-Little Inferno (PC)------------------------------------8
+-Pokémon Omega Rubí (3DS)-------------------------------9,5
+-Infamous: Second Son (PS4)-----------------------------8,5
+-Uncharted: El abismo de oro (Vita)---------------------8
+-Dragon Ball Xenoverse (PS4)----------------------------9,5
+-Final Fantasy Type-0 HD (PS4)--------------------------9,5
+-GTA IV: The Lost and Damned (PS3)----------------------8,5
+-Final Fantasy XV: Episodio Duscae (PS4)----------------9
+-Mass Effect 3 (PS3)------------------------------------9
+-Kirby Triple Deluxe (3DS)------------------------------8
+-OlliOlli 2: Welcome to Olliwood (Vita)-----------------9
+-Sine Mora (Vita)---------------------------------------5,5
+-Injustice: Gods Among Us (PS4)-------------------------8
+-Metal Gear Solid (PSX)---------------------------------10
+-New Super Mario Bros 2 (3DS)---------------------------7
+-Whatch Dogs (PS4)--------------------------------------7,5
+-Fifa 15 (PS3)------------------------------------------8
+-Call of Juarez: Gunslinger (PS3)-----------------------7,5
+-Star Fox 64 3D (3DS)-----------------------------------8,5
+-Batman: Arkham City (PS3)------------------------------9
+-Donkey Kong Country: Tropical Freeze (Wii U)-----------9,5
+-Kingdom Hearts: Final Mix (PS3)------------------------9
+-God of War: Ascension (PS3)----------------------------8,5
+-Sakura Clicker (PC)------------------------------------4
+-Clicker Heroes (PC)------------------------------------5 
+-Shadow of the Damned (PS3)-----------------------------9
+-Rocket League (PS4)------------------------------------8,5
+-Drive Club (PS4)---------------------------------------8
+-Half Life (PC)-----------------------------------------6
+-Valiant Hearts (PS4)-----------------------------------9,5
+-Metal Gear Solid V: Ground Zeroes (PS4)----------------9,5
+-Metal Gear Solid V: The Phantom Pain (PS4)-------------10
+-Crash Team Racing (PSX)--------------------------------9
+-Gravity Rush (Vita)------------------------------------9
+-P.T. (PS4)---------------------------------------------10
+-WipEout 2048 (Vita)------------------------------------8
+-Super Mario Maker (Wii U)------------------------------9
+-Carpe Diem (PC)----------------------------------------7,5
+-Emily is Away (PC)-------------------------------------8
+-Xenoblade Chronicles X (Wii U)-------------------------9,5
+-The Beginner s Guide (PC)------------------------------8,5
+
+2016
+-Farcry 3: Blood Dragon (PS3)---------------------------9
+-Final Fantasy VIII (PC)--------------------------------10
+-Resident Evil: Revelations (PC)------------------------8,5
+-Infamous: First Light (PS4)----------------------------8,5
+-Asphalt 8: Airborne (PC)-------------------------------5,5
+-Red Dead Redemption: Undead Nightmare (PS3)------------9
+-Batman: Arckam Kinght (PS4)----------------------------10
+-Platinum Demo: Final Fantasy XV (XOne, PS4)------------8
+-Uncharted 4 (PS4)--------------------------------------10
+-Flow (PS4)---------------------------------------------8m
+-VVVVVV (PC)--------------------------------------------8
+-Final Fantasy X HD (Vita)------------------------------10
+-Ori and the Blind Forest (XOne)------------------------9,5
+-Reality Fighters (Vita)--------------------------------5
+-Mirror s Edge (PS3)------------------------------------6
+-Sonic Dash (Móvil)-------------------------------------5
+-Life is Strange (PC)-----------------------------------9
+-Leap Day (Móvil)---------------------------------------5,5
+-J-Stars Victory VS+ (Vita)-----------------------------8,5
+-Transformers Devastation (PS4)-------------------------10
+-Tricky Towers (PS4)------------------------------------5
+-Zelda: A Link Between Worlds (3DS)---------------------10
+-NBA 2K17: The Prelude (PS4, XOne)----------------------7
+-Castle Crashers (PC)-----------------------------------7,5
+-The Last Guardian (PS4)--------------------------------10
+-Pokémon Go (Móvil)-------------------------------------8
+-Pony Island (PC)---------------------------------------9,5
+-Final Fantasy XV (PS4)---------------------------------10
+
+2017
+-Crash Bandicoot: The Huge Adventure (GBA)--------------7,5
+-Sonic & All Star Racing Transformer (PC)---------------8,5
+-Batman Arckam Knight: Batgirl DLC (PS4)----------------8
+-Everybody's gone to the Rapture (PS4)------------------9
+-Dinasty Warriors Next (Vita)---------------------------6
+-Zelda: Breath of the Wild (Wii U)----------------------10
+-A king's Tale: Final Fantasy XV (PS4)------------------7,5
+-8bits Bayonetta (PC)-----------------------------------6,5
+-Tearaway Unfolded (PS4)--------------------------------9,5
+-Year Walk (PC)-----------------------------------------8,5
+-Killzone: Mercenary (Vita)-----------------------------7,5
+-Saint Row: Gat out of Hell (PS4)-----------------------7,5
+-The Legend of Korra (PC)-------------------------------8,5
+-Tekken 6 (PS3)-----------------------------------------8
+-Hyper Void (PS4)---------------------------------------6
+-The Evil Within (PS4)----------------------------------9
+-The Evil Within: Assignment + Consequences (PS4)-------9
+-The Witcher 2: Assassins of Kings (PC)-----------------8
+-140 (PC)-----------------------------------------------7
+-The Plan (PC)------------------------------------------6,5
+-Crash Bandicoot 2 NST (PS4)----------------------------10
+-Adventures of Shuggy (PC)------------------------------5
+-Mountain (PC)------------------------------------------7
+-Horizon Zero Down (PS4)--------------------------------10
+-Jotun (PC)---------------------------------------------8,5
+-Little Nightmares (PS4)--------------------------------9,5
+-Crash Bandicoot NTS (PS4)------------------------------8,5
+-Metal Slug Defense (PC)--------------------------------6,5
+-Final Fantasy XII The Zodiac Age (PS4)-----------------10
+-Sonic 2 (PSP)------------------------------------------8,5
+-Super Mario Land 2: 6 Golden Coins (GB)----------------8
+-Super Mario Galaxy 2 (Wii)-----------------------------10
+-NES Rremix (Wii U)-------------------------------------7
+-Dragon's Lair II: Time Warp (PC)-----------------------6,5
+-Harry Potter y el Prisionero de Azkaban (PC)-----------5
+-Rayman Origin (PC)-------------------------------------8,5
+-Killer is Dead (PC)------------------------------------8,5
+-Threes (Móvil)-----------------------------------------7,5
+-The Witcher 3: Wild Hunt (PS4)-------------------------9,5
+
+2018
+-Emily is away too (PC)---------------------------------8,5
+-South Park: La vara de la verdad (PC)------------------9
+-Downwell (PC)------------------------------------------9,5
+-Doki Doki Literature Club (PC)-------------------------9
+-Uncharted 4 (PS4)--------------------------------------10
+-Crossing Souls (PC)------------------------------------8,5
+-Pinout (Móvil)-----------------------------------------5
+-Entiérrame, mi amor (Móvil)----------------------------7,5
+-Nier Automata (PS4)------------------------------------10
+-Pokémon Y (3DS)----------------------------------------9,5
+-Uncharted: The Lost Legacy (PS4)-----------------------9,5
+-Loading Screen Simulator (PC)--------------------------2
+-Dirt 3 (PC)--------------------------------------------6,5
+-Bethesda Pinball (Móvil)-------------------------------7,5
+-God of War (PS4)---------------------------------------10
+-Unravel (XOne)-----------------------------------------9
+-Crash Bandicoot 3 Warped NST (PS4)---------------------8,5
+-Super Mario 3DWorld (Wii U)----------------------------10
+-Las Aventuras del Capitán Spirit (PS4)-----------------7
+-Tacoma (PC)--------------------------------------------6
+-Mario Tennis Ultra Smash (Wii U)-----------------------6,5
+-Rollers of the Realms (PC)-----------------------------6
+-Dragon Ball Legends (Móvil)----------------------------7
+-Pokémon Go (Móvil)-------------------------------------8
+-Red Dead Redemption 2 (PS4)----------------------------10
+
+2019
+-Super Mario Land Hack Color (GB)-----------------------9
+-Marvel Spider-Man (PS4)--------------------------------10
+-Kingdom Hearts 358/2 (PS3)-----------------------------7
+-Kingdom Hearts 0.2 (PS4)-------------------------------8,5
+-Kingdom Hearts 3 (PS4)---------------------------------9
+-Nuclear Throne (PC)------------------------------------9
+-A Way Out (XOne)---------------------------------------8
+-Shadow of the Colossus (PS4)---------------------------10
+-Resident Evil 7 (PS4)----------------------------------9
+-Okami HD (PS4)-----------------------------------------10
+-Ratchet and Clank (PS4)--------------------------------9
+-Wonderful 101 (Wii U)----------------------------------10
+-Crash Team Racing Nitro Fueled (PS4)-------------------9,5
+-Marvel Spider-Man La ciudad nunca duerme (PS4)---------9
+-Dr Mario World (Móvil)---------------------------------4,5
+-Pokken Tournament (Wii U)------------------------------8
+-Star Wars Race Revenge (PS2)---------------------------5
+-Death Stranding (PS4)----------------------------------10
+
+2020
+-Star Wars Battlefront 2 (PS4)--------------------------8
+-Dragon Quest XI (PS4)----------------------------------9
+-A Short Hike (PC)--------------------------------------8
+-HellBlade (XOne)---------------------------------------9,5
+-Sonic Mania (PC)---------------------------------------9
+-Layers of Fear (PC)------------------------------------7,5
+-Bayonetta (PC)-----------------------------------------10
+-Final Fantasy VII Remake (PS4)-------------------------10
+-The Stanley Parable (PC)-------------------------------9
+-Street of Rage 4 (PC)----------------------------------8
+-Gears of War Ultimate Edition (PC)---------------------8
+-Detroit Become Human (PS4)-----------------------------8,5
+-Unravel 2 (XOne)---------------------------------------7,5
+-Resident Evil 2 Remake (XOne)--------------------------9,5
+-Dragon Ball Z Kakarot (PS4)----------------------------8
+-The Last of Us Parte II (PS4)--------------------------10
+-Ori and the Wild of the Wisps (PC)---------------------10
+-Undertale (PC)-----------------------------------------7
+-Medievil (PS4)-----------------------------------------8
+-Carrion (PC)-------------------------------------------9
+-Yakuza 0 (PC)------------------------------------------9,5
+-Dragon Ball FighterZ (PC)------------------------------10
+-Forza Horizon 4 (PC)-----------------------------------10
+-Battletoads (PC)---------------------------------------7
+-Animal Crossing: New Horizon (Switch)------------------8,5
+-Dark Souls Remastered (PS4)----------------------------9,5
+-Pokémon Let's Go Eeve (Switch)-------------------------9,5
+-Super Mario Bros: The Lost Levels (SNES)---------------8,5
+-Tony Hawk's Pro Skater 1 + 2 (PS4)---------------------10
+-Forza Motorsport 7 (PC)--------------------------------8
+-Star Wars Jedi: Fallen Order (PC)----------------------9
+-Cyberpunk 2077 (PC)------------------------------------10
+-Inside (PC)--------------------------------------------8
+-Super Mario Odissey (Switch)---------------------------10
+-Florence (Móvil)---------------------------------------8
+
+2021
+-Crash Team Racing Nitro Fueled (Switch)----------------9,5
+-Tetris Effect Connected (PC)---------------------------9
+-It Takes Two (XOne)------------------------------------8,5
+-Devil May Cry 4 (PC)-----------------------------------8,5
+-Final Fantasy XV (PC)----------------------------------10
+-Final Fantasy XV: Episodio Gladiolus (PC)--------------8
+-Final Fantasy XV: Episodio Prompto (PC)----------------6
+-Marvel vs Capcom: Infinite (PC)------------------------6,5
+-Zelda Link's Awakening (Switch)------------------------9,5
+-Final Fantasy XV: Episodio Ignis (PC)------------------8,5
+-The Hex (PC)-------------------------------------------9,5
+-Wolfenstein: The New Order (PC)------------------------8
+-Forza Motorsport 7 (PC)--------------------------------9
+-Super Mario Land (GB)----------------------------------9
+-Metal Gear Solid V: Ground Zeroes (PC)-----------------9,5
+-Unpacking (PC)-----------------------------------------8,5
+-Scarlet Nexus (PC)-------------------------------------8,5
+-Sonic 2 (Megadrive)------------------------------------9
+-Halo: Combat Evolved (PC)------------------------------8,5
+-Exo One (PC)-------------------------------------------6,5
+-Resident Evil Remaster (XOne)--------------------------8,5
+-Mario Kart 8 Deluxe (Switch)---------------------------10
+-Marvel Spider-Man Miles Morales (PS4)------------------9
+-Cookie Clicker (PC)------------------------------------8,5
+-Forza Horizon 5 (PC)-----------------------------------10
+-Inscryption (PC)---------------------------------------9
+-Final Fantasy XV: Episodio Ardyn (PC)------------------8
+
+2022
+-Captain Tsubasa: Rise of New Champions (PC)------------7,5
+-Gris (Switch)------------------------------------------8,5
+-Final Fantasy VII Remake: Intermission (PC)------------9,5
+-Pokémon Escudo (Switch)--------------------------------8,5
+-Pokémon Leyendas: Arceus (Switch)----------------------9,5
+-Elden Ring (PC)----------------------------------------10
+-Aperture Desk Job (PC)---------------------------------7,5
+-OlliOlli World (PC)------------------------------------9,5
+-Marvel's Guardian of the Galaxy (PC)-------------------8
+-Final Fantasy VI Pixel Remaster (PC)-------------------10
+-T Mutant Ninja Turtles: Shredder's Revenge (PC-XOne)---8,5
+-Devil May Cry 5 (PC)-----------------------------------9,5
+-Kurushi (PSX)------------------------------------------8
+-Hollow Knight (XOne-PC)--------------------------------9
+-Stray (PS4)--------------------------------------------8
+-Astro's Playroom (PS5)---------------------------------9,5
+-Marvel Spider-Man Miles Morales (PS5)------------------9
+-Bayonetta (Switch)-------------------------------------10
+-Bayonetta 2 (Switch)-----------------------------------10
+-Bayonetta 3 (Switch)-----------------------------------10
+-God of War: Ragnarok (PS5)-----------------------------9,5
+-Taiko no Tatsujin: The Drum Master! (PC)---------------8 
+-Resident Evil: Village (Series X)----------------------9
+-Vampire Survivors (PC)---------------------------------8,5
+-Final Fantasy VII Reunion: Cisis Core (PS5)------------10
+-Aperture Desk Job (Steam Deck)-------------------------7,5
+-Poinpy (Móvil)-----------------------------------------9
+-Ryse: Son of Rome (Steam Deck)-------------------------5
+
+2023
+-Crash Bandicoot 2 NST (Steam Deck)---------------------9,5
+-Pokémon Escarlata (Switch)-----------------------------7
+-Dragon Ball Z Kakarot (PS5)----------------------------8
+-SNK Heroines Tag Team Frenzy (Switch)------------------6,5
+-Hi-Fi RUSH (PC)----------------------------------------10
+-Kirby's Dream Land (GB)--------------------------------7,5
+-Hogwarts Legacy (PS5)----------------------------------8
+-Titanfall 2 (PC)---------------------------------------9,5
+-Sonic 4: Episode 1 (Steam Deck)------------------------7,5
+-Resident Evil 4 (PS5)----------------------------------10
+-Metroid Dread (Switch)---------------------------------9
+-The Murder of Sonic the Hedgehog (PC)------------------6,5
+-JoJo's Bizzarre Adeventure: All-Star Battle R (PC)-----8
+-Donkey Kong  Country Returns (3DS)---------------------9,5
+-Bayonetta (Steam Deck)---------------------------------10
+-Zelda: Tears of the Kingdom (Switch)-------------------10
+-Final Fantasy XVI (PS5)--------------------------------10
+-Attack of the Fryday Monsters (3DS)--------------------8
+-Final Fantasy VII Remake (PS5)-------------------------10
+-Peagle (Series X)--------------------------------------5,5
+-Persona 5 Royal (Switch)-------------------------------10
+-Marvel Spider-Man 2 (PS5)------------------------------10
+-Ratchet & Clank: Una dimensión aparte (PS5)------------9
+-Metal Gear Solid (PS5)---------------------------------10
+-Mario Kart 8 Deluxe Booster Pack (Switch)--------------10
+-Furi Demake (Steam Deck)-------------------------------8
+-Resident Evil 2 Remake (PS5)---------------------------8
+-Alan Wake (Steam Deck)---------------------------------9
+-God of War: Ragnarok Valhalla (PS5)--------------------9,5
+-Tony Hawk's Pro Skater 1 + 2 (Steam Deck-PC)-----------10
+-Resident Evil 4: Separate Ways (PS5)-------------------9,5
+-Samorost (Movil)---------------------------------------6
+-Final Fantasy VII Remake: Intermission (PS5)-----------9,5
+-Forza Horizon 4 LEGO Speed Champions (PC)--------------9
+-Cracy Taxy (Steam Deck)--------------------------------8
+-Theatrhythm Final Fantasy (3DS)------------------------8
+-Unpacking (PS5)----------------------------------------7
+
+2024
+-The Amazing Spider-Man (GB)----------------------------8
+-Yakuza Kiwami (Steam Deck-PC)--------------------------9
+-Silent Hill: The Short Message (PS5)-------------------4,5
+-Tekken 7 (PS5)-----------------------------------------8,5
+-Super Mario Wonder (Switch)----------------------------9,5
+-Granblue Fantasy Versus (Steam Deck)-------------------7,5
+-Final Fantasy VII Rebirth (PS5)------------------------10
+-Dragon Ball Advance Adventure (GBA)--------------------9
+-ReCore (PC)--------------------------------------------8
+-Sekiro: Shadows Die Twice (PS5)------------------------10
+-The Artful Escape (PS5)--------------------------------7
+-Pinball Heroes (PS4)-----------------------------------6
+-Hellblade (Steam Deck-PC)------------------------------8,5
+-Gears of War 2 (Xbox 360)------------------------------8
+-Senua’s Saga: Hellblade II (Series X)------------------9
+-Chrono Trigger (Steam Deck)----------------------------10
+-Elden Ring: Shadow of the Edtree (PC)------------------10
+-Mafia: Definitive Edition (PC)-------------------------8
+-Black Myth: Wukong (PC)--------------------------------9,5
+-AstroBot (PS5)-----------------------------------------10
+-El Escudero Valiente (PS5)-----------------------------8,5
+-Mario Kart 7 (3DS)-------------------------------------8,5
+-Metaphor: ReFantazio (PC)------------------------------8
+-Dragon Ball Z: Sparking Zero (PC)----------------------10
+-Indiana Jones y el Gran Círculo (PC)-------------------8
+-Forza Motorsport (PC-Series X)-------------------------8,5
+-Sonic Lost World (Steam Deck)--------------------------6,5
+-Not a Hero (Steam Deck)--------------------------------7
+-Super Mario 3D World: Bowser Fury (Switch)-------------9,5
+-Metal Slug (Steam Deck)--------------------------------8
+
+2025
+-Final Fantasy I Pixel Remaster (PS4)-------------------8,5
+-Little Inferno: Ho Ho Holiday (Steam Deck)-------------8,5
+-Crash Bandicoot NST (Steam Deck)-----------------------8,5
+-Silent Hill 2 (PS5)------------------------------------9
+-Ghost of Tushima (PS5)---------------------------------9
+-Final Fantasy VII Rebirth (PC)-------------------------10
+-DOOM (PC)----------------------------------------------9
+-The Crew 2 (PC)----------------------------------------6,5
+-Sonic Advance (GBA)------------------------------------7
+-Zelda: Echoes of Wisdow (Switch)-----------------------7,5
+-Split Fiction: (PS5)-----------------------------------8,5
+-South of Midnight (PC)---------------------------------8
+-Spyro Remake (PC)--------------------------------------8
+-Pokémon Diamante Brillante (Switch)--------------------7,5
+-Clair Obscur: Expedition 33 (PC)-----------------------10
+-Crash Team Racing Nitro Fueled (Series X)--------------9,5
+-Luigi's Mansion (3DS)----------------------------------7
+-Resident Evil 7: End of Zoe (PS5)----------------------8
+-DOOM: The Dark Ages (PC)-------------------------------9
+-Super Mario Land (GB)----------------------------------9
+-Mario Kart 7 (3DS)-------------------------------------8,5
+-Death Stranding 2: On the Beach (PS5)------------------10
+-Luto (PS5)---------------------------------------------7
+-Cyberpunk 2077: Phantom Liberty (PC)-------------------10
+-Metal Gear Solid: Delta (PC)---------------------------10 
+-Mario Kart World (Switch 2)----------------------------9,5
+-Hollow Knight Silksong (PC-Steam Deck)-----------------8
+-Donkey Kong Bananza (Switch 2)-------------------------9,5
+-Tony Hawk's Pro Skater 3 + 4 (PC-Series X)-------------9
+-Cyberpunk 2077 (PC-Steam Deck)-------------------------10
+-Control (PC)-------------------------------------------8
+-King of Fighters Ex2 (GBA)-----------------------------8
+-Keeper (Series X)--------------------------------------8,5
+-Ninja Gaiden 4 (PC)------------------------------------9
+-Crash Bandicoot 3: Warped NST (Steam Deck)-------------8
+-Control: AWE (PC)--------------------------------------8
+-Nier Replicant (PC)------------------------------------9
+-Pokémon Leyendas: Z-A (Switch 2)-----------------------6
+-Fortnite (PS5, Series X, Switch 2)---------------------7
+-Digging a Hole (PC)------------------------------------
+`;
