@@ -291,3 +291,53 @@ select, input[type="range"] {
 .year-bar-fill {
   transition: width .6s ease;
 }
+
+#loginScreen {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(1200px 800px at 10% -10%, #132033 0%, transparent 60%), var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.login-box {
+  background: var(--card);
+  border: 1px solid #ffffff22;
+  border-radius: 16px;
+  padding: 24px;
+  width: 280px;
+  text-align: center;
+  box-shadow: 0 20px 60px #00000080;
+}
+
+.login-box h2 {
+  margin: 0 0 12px;
+}
+
+.login-box input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #0e1623;
+  border: 1px solid #ffffff22;
+  border-radius: 10px;
+  color: var(--txt);
+}
+
+.login-box button {
+  width: 100%;
+  padding: 10px;
+  background: var(--acc);
+  border: 0;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+#loginErr {
+  color: #ff9b9b;
+  font-size: 12px;
+  margin-top: 8px;
+}

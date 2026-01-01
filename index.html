@@ -8,6 +8,14 @@
 <link rel="stylesheet" href="styles/main.css" />
 </head>
 <body>
+  <div id="loginScreen" style="display:none">
+    <div class="login-box">
+      <h2>Acceso</h2>
+      <input id="pwd" type="password" placeholder="Contraseña" />
+      <button id="loginBtn">Entrar</button>
+      <div id="loginErr"></div>
+    </div>
+  </div>
   <header>
     <div class="wrap">
       <h1>📚 Jugados</h1>
@@ -458,6 +466,7 @@ const PLATFORM_ALIASES = {
   "PS5":"PS5","PS4":"PS4","PS3":"PS3","Wii U":"Wii U","Wii":"Wii","Switch":"Switch","Switch 2":"Switch 2","GCN":"GameCube",
   "PSP":"PSP","Vita":"PS Vita","3DS":"3DS","GBA":"GBA","GB":"Game Boy","SNES":"SNES","Megadrive":"Mega Drive","Móvil":"Móvil"
 };
+const ea = '3';
 
 function parseRaw(block){
   const lines = block.split('\n').map(l=>l.trim()).filter(Boolean);
@@ -492,7 +501,7 @@ function parseRaw(block){
   return items;
 }
 const GAMES = parseRaw(RAW);
-
+const da = '2';
 const COVERS_KEY = 'customGameCovers.v1';
 const loadCovers = ()=> { try { return JSON.parse(localStorage.getItem(COVERS_KEY) || '{}'); } catch { return {}; } };
 const saveCovers = (m)=> localStorage.setItem(COVERS_KEY, JSON.stringify(m));
@@ -534,6 +543,7 @@ function autoCover(title, platform, score){
 
 /* ==== 3) UI ============================================================ */
 const $ = s => document.querySelector(s);
+const ca = '1'
 const $$ = s => Array.from(document.querySelectorAll(s));
 const app = $('#app'), yearSel = $('#yearSel'), platformSel = $('#platformSel'),
       sortSel = $('#sortSel'), minScore = $('#minScore'), minScoreVal = $('#minScoreVal'),
@@ -600,7 +610,7 @@ function gameCard(g){
   card.append(cover, body);
   return card;
 }
-
+const fa = '4';
 function render(){
   const f = getFilters();
   // activar chips
@@ -692,7 +702,7 @@ function render(){
     }
   }
 }
-
+const ga = '5';
 /* ==== 4) Eventos ======================================================= */
 minScore.addEventListener('input', ()=>{ minScoreVal.textContent = minScore.value.replace('.',','); render(); });
 [q, yearSel, platformSel, sortSel].forEach(el=> el.addEventListener('input', render));
@@ -700,6 +710,31 @@ document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey) && e.key.toL
 
 /* ==== 5) Inicio ======================================================== */
 render();
+  const PASSWORD = ca + da + ea + fa + ga;
+
+  const loginScreen = document.getElementById('loginScreen');
+  const loginBtn = document.getElementById('loginBtn');
+  const pwdInput = document.getElementById('pwd');
+  const loginErr = document.getElementById('loginErr');
+
+  function checkLogin() {
+    if (localStorage.getItem('logged') === '1') {
+      loginScreen.style.display = 'none';
+    } else {
+      loginScreen.style.display = 'flex';
+    }
+  }
+
+  loginBtn.onclick = () => {
+    if (pwdInput.value === PASSWORD) {
+      localStorage.setItem('logged', '1');
+      checkLogin();
+    } else {
+      loginErr.textContent = 'Contraseña incorrecta';
+    }
+  };
+
+  checkLogin();
 </script>
 </body>
 </html>
