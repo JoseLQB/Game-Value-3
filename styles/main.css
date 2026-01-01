@@ -105,7 +105,7 @@ select, input[type="range"] {
 .wrap {
   max-width:1200px;
   margin:0 auto;
-  padding: 10px 14px 60px;
+  padding: 10px 14px 6px;
 }
 
 .year {
@@ -248,4 +248,46 @@ select, input[type="range"] {
     grid-template-columns: 1fr 1fr;
     grid-auto-rows: minmax(0,auto);
   }
+}
+
+
+.year {
+  margin:26px 0 10px;
+  font-size: clamp(16px, 2vw, 20px);
+  color:#d6e6ff;
+}
+
+.year-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.year-bar {
+  flex: 1;
+  max-width: 160px;
+  height: 6px;
+  background: #0e1623;
+  border: 1px solid #ffffff12;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.year-bar-fill {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--acc),
+    #22c55e
+  );
+}
+
+.year-num {
+  font-size: 12px;
+  color: var(--muted);
+  min-width: 28px;
+  text-align: right;
+}
+.year-bar-fill {
+  transition: width .6s ease;
 }

@@ -43,7 +43,6 @@
   <div class="stickyfoot">💡</div>
 
 <script>
-/* ==== 1) Datos (pegados tal cual) ====================================== */
 const RAW = `
 2014
 -Devil May Cry: DMC (PS3)-------------------------------8,5--(https://assetsio.gnwcdn.com/co1u77.jpg?width=3360&height=1815&fit=bounds&quality=85&format=jpg)
@@ -434,6 +433,7 @@ const RAW = `
 -Donkey Kong Bananza (Switch 2)-------------------------9,5--(https://dvdstorespain.es/1063974/frikiverso-placa-decorativa-donkey-kong-bananza-metalica-cuadro-poster-hd.jpg)
 -Tony Hawk's Pro Skater 3 + 4 (PC, Xbox Series X)-------9--(https://image.api.playstation.com/vulcan/ap/rnd/202502/2101/322f386a7ffa30527e27e60a04e80016fa6c692dd339962a.jpg)
 -Cyberpunk 2077 (PC, Steam Deck)------------------------10--(https://image.api.playstation.com/vulcan/ap/rnd/202008/0416/zQQg225xOUnIVN8ND2DqEPUE.jpg)
+-Resident Evil 6 (PS5)----------------------------------7--(https://hot.game/uploads/media/game/0001/10/25ea7234e039a12afc313d631b0a2dadc1b7ff75.jpeg)
 -Control (PC)-------------------------------------------8--(https://image.api.playstation.com/vulcan/ap/rnd/202008/2111/kZuu7RcHultdoVUuGsReuGcq.png)
 -King of Fighters Ex2 (GBA)-----------------------------8--(https://cdn2.steamgriddb.com/grid/80ed678add0cb94b4461ca0d63823e2d.jpg)
 -Keeper (Xbox Series X)---------------------------------8,5--(https://static0.xdaimages.com/wordpress/wp-content/uploads/sharedimages/2025/06/keeper-tag-page-cover-art.jpg)
@@ -458,6 +458,7 @@ const PLATFORM_ALIASES = {
   "PS5":"PS5","PS4":"PS4","PS3":"PS3","Wii U":"Wii U","Wii":"Wii","Switch":"Switch","Switch 2":"Switch 2","GCN":"GameCube",
   "PSP":"PSP","Vita":"PS Vita","3DS":"3DS","GBA":"GBA","GB":"Game Boy","SNES":"SNES","Megadrive":"Mega Drive","Móvil":"Móvil"
 };
+
 function parseRaw(block){
   const lines = block.split('\n').map(l=>l.trim()).filter(Boolean);
   let year=null, items=[]; let idx=0;
@@ -631,6 +632,12 @@ function render(){
   }
 
   // stats
+  const countsByYear = {};
+
+  list.forEach(g => {
+    countsByYear[g.year] = (countsByYear[g.year] || 0) + 1;
+  });
+  const maxCount = Math.max(...Object.values(countsByYear));
   const avg = arr => (arr.reduce((s,x)=>s+x.score,0)/Math.max(1,arr.length));
   meta.textContent = `Mostrando ${list.length} de ${GAMES.length} juegos · Nota media: ${avg(list).toFixed(2).replace('.',',')}`;
 
@@ -640,14 +647,34 @@ function render(){
 
   if(f.sort === 'doc'){
     // ➜ Años de más reciente a más antiguo
-    const yearsDesc = [...new Set(list.map(g=>g.year))].sort((a,b)=> b-a);
-    for(const y of yearsDesc){
-      const h = document.createElement('h2'); h.className='year'; h.textContent = y;
-      const grid = document.createElement('div'); grid.className='grid';
-      // list ya está en orden de documento; filtramos por año respetando ese orden
-      list.filter(x=>x.year===y).forEach(g=> grid.appendChild(gameCard(g)));
-      app.append(h, grid);
-    }
+  const yearsDesc = [...new Set(list.map(g => g.year))].sort((a, b) => b - a);
+
+  for (const y of yearsDesc) {
+    const count = countsByYear[y];
+    const pct = Math.round((count / maxCount) * 100);
+
+    const h = document.createElement('h2');
+    h.className = 'year';
+    h.innerHTML = `
+      <div class="year-row">
+        <span>${y}</span>
+        <div class="year-bar">
+          <div class="year-bar-fill" style="width:${pct}%"></div>
+        </div>
+        <span class="year-num">${count}</span>
+      </div>
+    `;
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    list
+      .filter(x => x.year === y)
+      .forEach(g => grid.appendChild(gameCard(g)));
+
+    app.append(h, grid);
+  }
+
   } else if(['title-asc','score-desc','score-asc'].includes(f.sort)){
     const h = document.createElement('h2'); h.className='year'; h.textContent = 'Resultados';
     const grid = document.createElement('div'); grid.className='grid';
