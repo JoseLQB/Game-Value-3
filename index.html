@@ -20,14 +20,10 @@
     <div class="wrap">
       <h1>📚 Jugados</h1>
       <div class="controls" aria-label="Controles de filtrado y ordenación">
-        <label class="search" title="Buscar por título (⌘/Ctrl + K)">
-          🔎 <input id="q" placeholder="Buscar por título…" autocomplete="off" />
-        </label>
-        <select id="yearSel" title="Filtrar por año">
-          <option value="all">Todos los años</option>
-        </select>
-        <select id="platformSel" multiple title="Filtrar por plataforma (multi)"></select>
-        <select id="sortSel" title="Ordenar">
+        <label class="search">🔎 <input id="q" placeholder="Buscar por título…" autocomplete="off" /></label>
+        <select id="yearSel"><option value="all">Todos los años</option></select>
+        <select id="platformSel" multiple></select>
+        <select id="sortSel">
           <option value="doc" selected>Orden: Documento</option>
           <option value="year-desc">Orden: Año ↓</option>
           <option value="year-asc">Orden: Año ↑</option>
@@ -48,702 +44,101 @@
 
   <main class="wrap" id="app"></main>
 
-  <div class="stickyfoot">💡</div>
-
 <script>
-const RAW = `
-2014
--Devil May Cry: DMC (PS3)-------------------------------8,5--(https://assetsio.gnwcdn.com/co1u77.jpg?width=3360&height=1815&fit=bounds&quality=85&format=jpg)
--Zelda: Majora s Mask (N64)-----------------------------9,5--(https://pics.filmaffinity.com/zeruda_no_densetsu_mujura_no_kamen-464136592-large.jpg)
--Castle of Illusion: Starring Mickey Mouse (PS3)--------7,5--(https://images.igdb.com/igdb/image/upload/t_cover_big/co3wiq.jpg)
--Metal Gear Solid V: Ground Zeroes (PS3)----------------8,5--(https://i.etsystatic.com/10064703/r/il/d923a0/808214478/il_1080xN.808214478_o2ej.jpg)
--Bioshock: Infinite (PS3)-------------------------------10--(https://static.posters.cz/image/750/13996.jpg)
--Hotline Miami (PS3)------------------------------------8,5--(https://assetsio.gnwcdn.com/co1vqp.jpg?width=2048&height=2048&fit=bounds&quality=85&format=jpg&auto=webp) 
--Dragon Ball: Revenge of King Piccolo (Wii)-------------8--(https://pics.filmaffinity.com/Dragon_Ball_Revenge_of_King_Piccolo-319633265-large.jpg)
--Portal (PC)--------------------------------------------9,5--(https://upload.wikimedia.org/wikipedia/en/9/9f/Portal_standalonebox.jpg)
--Metroid: Zero Mission (GBA)----------------------------9--(https://m.media-amazon.com/images/M/MV5BNGQ1MzY0NjktNGI1Yi00YTc4LWFkMWUtNGM2YmRiZWI4MDZkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Donkey Kong Country (GBA)------------------------------9--(https://static0.polygonimages.com/wordpress/wp-content/uploads/sharedimages/2024/04/donkey-kong-country.jpg) 
--Evoland (PC)-------------------------------------------8,5--(https://pressakey.com/gfxgames/boxart/full/Evoland-1877-1597921986.jpg)
--Donkey Kong  Country Returns (Wii)---------------------9,5--(https://m.media-amazon.com/images/M/MV5BM2VlZTg4ZGYtY2QxMS00OTkwLTk3MTgtMjc5YzY2NjIzNmY5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Metal Gear Solid: The Twin Snakes (GCN)----------------8,5--(https://m.media-amazon.com/images/M/MV5BNDcxYWVmZGEtOTg1ZS00YmQxLWJhODYtNjQ3NTBmMTY2MjFkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Batman: Arckam Asylum (PC)-----------------------------9--(https://m.media-amazon.com/images/M/MV5BZDc0MDJkMWEtMjA4Yi00ZmNlLWJjYjYtMTI2ZDYxODkwYjRiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Sleeping Dogs (PS3)------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BNmU0NzVmYWItZTliNS00YzVlLWFmOGQtY2I4MGY1N2JmZjdlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Dead Space (PC)----------------------------------------6,5--(https://th.bing.com/th/id/R.0670d355a9d56da31130cc48c2e29934?rik=Ml9oLzDGdBEELw&pid=ImgRaw&r=0)
--Zelda Wind Waker (GCN)---------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BNzUyODk5NTctZDdlNS00ZGVmLTg2OGUtNDVhNDQ5NGE2NWYwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Mass Effect (PS3)--------------------------------------9--(https://m.media-amazon.com/images/M/MV5BYzVmMjBlOGQtM2VjZS00ZGQ0LWIwM2YtYzNmOGQzY2Q0YTcwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Tomb Raider (PS3)--------------------------------------9--(https://m.media-amazon.com/images/M/MV5BZWRhNDIwMDQtOTE1ZS00YTQ1LThlYmYtYzBhZjE4NTEwZTIyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Mario Kart 8 (Wii U)-----------------------------------10--(https://picfiles.alphacoders.com/134/thumb-1920-134082.jpg)
--Bioshock Panteón Marino Episodio 1 (PS3)---------------8--(https://i.3djuegos.com/juegos/10180/bioshock_infinite_pante_n_marino/fotos/ficha/bioshock_infinite_pante_n_marino-2319553.jpg)
--Bayonetta (PS3)----------------------------------------10--(https://m.media-amazon.com/images/M/MV5BYjRjOWY4ODctZDIyMy00ZThiLTg3NmItZDc3ZjZkN2JmZTkwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Assassins Creed 2 (PS3)--------------------------------8--(https://m.media-amazon.com/images/M/MV5BYzcwYjkwOTYtNTQyYi00NzYxLTg4MGUtZjg5YTdiOGE5NjUzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Bayonetta 2 (Wii U)------------------------------------10--(https://m.media-amazon.com/images/M/MV5BM2Y4YmMxZmYtMmQ2MC00MDQwLWE0NmYtMTFiYzc4YjkwN2ZkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--The Last of Us (PS3)-----------------------------------10--(https://m.media-amazon.com/images/M/MV5BMTE2MmQ3OTctZmExNi00ZTYxLTgzMGYtOTdlYjFjNzIxNWMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Bioshock Panteón Marino Episodio 2 (PS3)---------------9--(https://assets-prd.ignimgs.com/2022/08/19/burialatsea2-1660893297972.jpg)
--The Last of Us: Left Behind (PS3)----------------------10--(https://m.media-amazon.com/images/M/MV5BMTAxYThlYTYtOWI2Yy00Y2ZhLWJjZGQtODcxMjU1YTAzMGFmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
+const API_BASE = localStorage.getItem('apiBase') || 'http://localhost:3000';
+let GAMES = [];
 
-2015
--God of War 2 (PS3)-------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BNzBjN2ZkNjEtODgxNS00NWQwLWJmNjAtYmQ5NWRlMDA0ZDhlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Little Inferno (PC)------------------------------------8--(https://m.media-amazon.com/images/M/MV5BYWM0YTA1YzQtYzA0Ny00N2Q4LWExNjgtNmJjOTI5OWQ5YjljXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Pokémon Omega Rubí (3DS)-------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BY2Y2MjNkYzktOTMzZC00MDM3LTlkNTItNGNlZTNkZTJjODAyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Infamous: Second Son (PS4)-----------------------------8,5--(https://m.media-amazon.com/images/M/MV5BM2RkMDJjNDMtMzNkMi00ZWVlLWI3ODItODU1NDEyMzdhMDIzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Uncharted: El abismo de oro (Vita)---------------------8--(https://pics.filmaffinity.com/Uncharted_El_abismo_de_oro-773115085-large.jpg)
--Dragon Ball Xenoverse (PS4)----------------------------9,5--(https://m.media-amazon.com/images/M/MV5BYzMwZWUwODEtMTU3Zi00MDYwLTg1MjUtNGVlMDVlZDBkNGZmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Final Fantasy Type-0 HD (PS4)--------------------------9,5--(https://m.media-amazon.com/images/M/MV5BODYzNTJmY2EtMmNiZS00NWQ0LWJkNmQtZjY3OTUzZGRjNWJlXkEyXkFqcGc@._V1_.jpg)
--GTA IV: The Lost and Damned (PS3)----------------------8,5--(https://m.media-amazon.com/images/M/MV5BMzY3NTA3Y2QtNzA2ZS00NzczLTkyNjQtMzRmZTUyNTAxMTRjXkEyXkFqcGc@._V1_.jpg)
--Final Fantasy XV: Episodio Duscae (PS4)----------------9--(https://avo-magazine.com/wp-content/uploads/2015/04/Duscae-1.jpg)
--Mass Effect 3 (PS3)------------------------------------9--(https://m.media-amazon.com/images/M/MV5BMTMzMjM0MWQtMWE2ZS00YWZlLTgyYjMtMTA0OWU4MjU5ZTEzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Kirby Triple Deluxe (3DS)------------------------------8--(https://m.media-amazon.com/images/M/MV5BMjJlN2U2ZjctMmY3ZC00YWU4LThjOWYtMGJhN2Q3MWIzN2E1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--OlliOlli 2: Welcome to Olliwood (Vita)-----------------9--(https://m.media-amazon.com/images/M/MV5BYWVhNDM1NWItMzQwOC00ZWMwLTljMDAtMTEyYzdlMzY1MDBjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Sine Mora (Vita)---------------------------------------5,5--(https://sm.ign.com/ign_es/cover/s/sine-mora/sine-mora_3nmf.jpg)
--Injustice: Gods Among Us (PS4)-------------------------8--(https://m.media-amazon.com/images/M/MV5BZjVjNTg1MWUtM2ZhYi00YzA2LWI2ZTctZTVjNzFhZGM2NDMxXkEyXkFqcGc@._V1_.jpg)
--Metal Gear Solid (PSX)---------------------------------10--(https://m.media-amazon.com/images/I/81P3qIrsFrL.jpg)
--New Super Mario Bros 2 (3DS)---------------------------7--(https://m.media-amazon.com/images/M/MV5BOWFhMTZlMDItNjRhYy00ZWFlLWE4NTMtM2U1YWUzZWViNGQxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Whatch Dogs (PS4)--------------------------------------7,5--(https://store.ubisoft.com/on/demandware.static/-/Sites-masterCatalog/default/dw77d11f26/images/large/56c494ae88a7e300458b4d72.jpg)
--Fifa 15 (PS3)------------------------------------------8--(https://farm4.staticflickr.com/3907/14465572599_ae39007713_o_d.jpg)
--Call of Juarez: Gunslinger (PS3)-----------------------7,5--(https://media.vandal.net/m/16707/201354121319_1.jpg)
--Star Fox 64 3D (3DS)-----------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BMDAzMWNmNzgtMzdjNy00Mjk4LWI3NjctNDlkZmZkYzMzZjIxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Batman: Arkham City (PS3)------------------------------9--(https://m.media-amazon.com/images/M/MV5BOTA4MzY3MWYtMTFmYy00NTRiLTk4MDMtYmNlMTU0ZGFkYmM2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Donkey Kong Country: Tropical Freeze (Wii U)-----------9,5--(https://guiadegames.com/wp-content/uploads/2023/07/Donkey-Kong-Country-Tropical-Freeze.jpg)
--Kingdom Hearts: Final Mix (PS3)------------------------9--(https://m.media-amazon.com/images/M/MV5BOTQxODEyYmEtNGRkMC00MDU4LWJmYmQtMmMxNjQwMGU0NzRmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--God of War: Ascension (PS3)----------------------------8,5--(https://assets.mycast.io/actor_images/actor-god-of-war-ascension-866160_large.jpg?1694287289)
--Sakura Clicker (PC)------------------------------------4--(https://m.media-amazon.com/images/M/MV5BYWE1NWJlMzQtMDZiOS00NTJjLWIzMTktYjA4ODQ3MzRhMDM1XkEyXkFqcGc@._V1_.jpg)
--Clicker Heroes (PC)------------------------------------5--(https://m.media-amazon.com/images/M/MV5BZDNkMjliYzYtZDFiMS00OWZmLWI4NWMtMjk1MTllMmVjZWRjXkEyXkFqcGc@._V1_.jpg)
--Shadow of the Damned (PS3)-----------------------------9--(https://m.media-amazon.com/images/M/MV5BOTBhMmE5NDAtMjEyNS00OTliLWExNzMtYmQ4Y2VhY2Q0YTA1XkEyXkFqcGc@._V1_.jpg)
--Rocket League (PS4)------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BNTkyNjdlM2ItMGEwZS00NzYyLTlmOGYtZThlOTExN2E4NGYyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Drive Club (PS4)---------------------------------------8--(https://m.media-amazon.com/images/M/MV5BYTMyODhmYWYtMGU1NC00MmRmLWE5MTEtYmNjOTdmYmQ1YWUyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Half Life (PC)-----------------------------------------6--(https://m.media-amazon.com/images/M/MV5BMjQxNjhhOTMtMThiMi00ODBlLWI3ZTYtNWU1ZTE1YWM5NDRlXkEyXkFqcGc@._V1_.jpg)
--Valiant Hearts (PS4)-----------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BZjgzNTYzZWUtZmVlNS00ODIyLTllMjQtZTFiYTBlMWRhMmMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Metal Gear Solid V: Ground Zeroes (PS4)----------------9,5--(https://i.etsystatic.com/10064703/r/il/d923a0/808214478/il_1080xN.808214478_o2ej.jpg)
--Metal Gear Solid V: The Phantom Pain (PS4)-------------10--(https://static.posters.cz/image/750/24807.jpg)
--Crash Team Racing (PSX)--------------------------------9--(https://www.gamespot.com/a/uploads/scale_medium/mig/1/9/1/1/2211911-box_ctr.png)
--Gravity Rush (Vita)------------------------------------9--(https://tse4.mm.bing.net/th/id/OIP.iqrg5XFHwA-ohcHCFsgIaQAAAA?rs=1&pid=ImgDetMain&o=7&rm=3)
--P.T. (PS4)---------------------------------------------10--(https://pbs.twimg.com/media/F3Zl2x5WAAAVl1-.jpg)
--WipEout 2048 (Vita)------------------------------------8--(https://m.media-amazon.com/images/M/MV5BNmE4OTRkYWEtMWI5MS00MTdjLWE1ZTctNDc5MmEzMmZhMDRkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Super Mario Maker (Wii U)------------------------------9--(https://m.media-amazon.com/images/M/MV5BMDYzMzkyYTctNGEzMS00MWU5LThkMDktNTc0YjRkYWQ0NmEyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Carpe Diem (PC)----------------------------------------7,5--(https://howlongtobeat.com/games/Carpe_Diem_header.jpg)
--Emily is Away (PC)-------------------------------------8--(https://e.snmc.io/lk/f/x/997c91a277da3eb0002931e4fb642ba6/8866228)
--Xenoblade Chronicles X (Wii U)-------------------------9,5--(https://assets.altarofgaming.com/wp-content/uploads/2023/03/xenoblade-chronicles-x-game-poster-altar-of-gaming-728x1024.jpg)
--The Beginner s Guide (PC)------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BOTI2NThjMjgtNjAxMy00MjNhLTkwYmMtYmU2ZjI4YjdmYzdhXkEyXkFqcGc@._V1_.jpg)
+const app = document.querySelector('#app');
+const yearSel = document.querySelector('#yearSel');
+const platformSel = document.querySelector('#platformSel');
+const sortSel = document.querySelector('#sortSel');
+const minScore = document.querySelector('#minScore');
+const minScoreVal = document.querySelector('#minScoreVal');
+const q = document.querySelector('#q');
+const chips = document.querySelector('#chips');
+const meta = document.querySelector('#meta');
 
-2016
--Farcry 3: Blood Dragon (PS3)---------------------------9--(https://m.media-amazon.com/images/M/MV5BNjZjNDVmMjMtNzYxYi00ZDc5LTgzOGQtMjZmYmM3NDUzYTEyXkEyXkFqcGc@._V1_.jpg)
--Final Fantasy VIII (PC)--------------------------------10--(https://m.media-amazon.com/images/M/MV5BN2UyYTgyMWMtZTgzZi00NTY1LTlmMDctZTc2OTc4NTIxYzBjXkEyXkFqcGc@._V1_.jpg)
--Resident Evil: Revelations (PC)------------------------8,5--(https://pics.filmaffinity.com/baiohazado_rebereshonzu-952366901-large.jpg)
--Infamous: First Light (PS4)----------------------------8,5--(https://m.media-amazon.com/images/M/MV5BNWE2MGU3MzYtZjk4Yi00ZGU1LTk5MmMtMWMzY2MxY2IyYjc4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Asphalt 8: Airborne (PC)-------------------------------5,5--(https://m.media-amazon.com/images/M/MV5BYjBmYWU2NzktOTdmYy00MWFkLTkyNmItM2M0NGNkMmY0OGYwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Red Dead Redemption: Undead Nightmare (PS3)------------9--(https://m.media-amazon.com/images/M/MV5BN2NjMGUzOTAtNDU3ZC00ZTc0LWJiNmItYzk5NWQxZDFkOWJiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Batman: Arckam Kinght (PS4)----------------------------10--(https://m.media-amazon.com/images/M/MV5BMTc0MTcxMzQ0Ml5BMl5BanBnXkFtZTgwNDc3MzE0MTE@._V1_FMjpg_UX1000_.jpg)
--Platinum Demo: Final Fantasy XV (Xbox One, PS4)--------8--(https://assets2.ignimgs.com/2016/03/30/final-fantasy-xv-platinum-demo-button-2jpg-6d97fd.jpg)
--Uncharted 4 (PS4)--------------------------------------10--(https://e.snmc.io/lk/o/x/eeab4506ca1a9a46e9fcafc40e633304/5281049)
--Flow (PS4)---------------------------------------------8--(https://m.media-amazon.com/images/M/MV5BZmI2Mzg2MGUtYTNiOC00YmUzLWE1NTItNjYyOTdjZDdkNzg0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--VVVVVV (PC)--------------------------------------------8--(https://m.media-amazon.com/images/M/MV5BMjBiYzZkZDQtMjY5OS00NjI2LWFmYTMtN2NhYzUzZjI0YjdkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Final Fantasy X HD (Vita)------------------------------10--(https://m.media-amazon.com/images/M/MV5BYzU2ZTAzOWMtMjBjNC00OTgzLWIwMjgtYWFhZTM1NmQyYWVmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Ori and the Blind Forest (Xbox One)--------------------9,5--(https://pics.filmaffinity.com/ori_and_the_blind_forest-698618372-large.jpg)
--Reality Fighters (Vita)--------------------------------5--(https://m.media-amazon.com/images/M/MV5BYzA3MGVmZDktZDhjNC00YmQxLWJhZDAtNTYzNTQ0OTNmN2I0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Mirror s Edge (PS3)------------------------------------6--(https://m.media-amazon.com/images/M/MV5BZDhjNzU0NjAtZTBhMC00ZjQ2LTlmZmQtODcwODk2YjhhMDYyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Sonic Dash (Móvil)-------------------------------------5--(https://m.media-amazon.com/images/M/MV5BODUyYzBkM2QtMWEyMi00ZTBiLTk0NmEtMWY5MjdkMWRkOWFjXkEyXkFqcGc@._V1_.jpg)
--Life is Strange (PC)-----------------------------------9--(https://m.media-amazon.com/images/M/MV5BOTI1YTFmNGEtOTM2NC00NWYwLTkwMzgtZGRkODk0ZDI3ODE1XkEyXkFqcGc@._V1_.jpg)
--Leap Day (Móvil)---------------------------------------5,5--(https://i.pinimg.com/736x/6c/11/04/6c11043b06b5caab0d1814e810528161.jpg)
--J-Stars Victory VS+ (Vita)-----------------------------8,5--(https://assets.mycast.io/posters/j-stars-victory-vs-video-game-english-dub-fan-casting-poster-440165-large.jpg)
--Transformers Devastation (PS4)-------------------------10--(https://m.media-amazon.com/images/M/MV5BMDg2MzcyOTQtZTM1Zi00ZGVlLWI5NzItMDFhMjM2MmFhODI4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Tricky Towers (PS4)------------------------------------5--(https://cdn.mobygames.com/covers/8044603-tricky-towers-candy-bricks-xbox-one-front-cover.jpg)
--Zelda: A Link Between Worlds (3DS)---------------------10--(https://howlongtobeat.com/games/12965_The_Legend_of_Zelda_A_Link_Between_Worlds.png)
--NBA 2K17: The Prelude (PS4, Xbox One)------------------7--(https://imgv2-1-f.scribdassets.com/img/document/529513692/original/1b05974468/1676786615?v=1)
--Castle Crashers (PC)-----------------------------------7,5--(https://m.media-amazon.com/images/M/MV5BZWEwZDNiOTAtZDg1Ny00MjcwLWE3MTAtZTI2NDdhN2Q1MGM1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--The Last Guardian (PS4)--------------------------------10--(https://m.media-amazon.com/images/M/MV5BZjFhODc2ZjItYTA5OS00NTQ0LTk3YzctZWE1MWRiMTBmMTU5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Pokémon Go (Móvil)-------------------------------------8--(https://m.media-amazon.com/images/M/MV5BYTJkNDRhMzAtMzVmOS00ZTE2LTllNzAtOTRiN2M2ZTA4OTI0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Pony Island (PC)---------------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BMmU0ZjI5NmYtZTk2NC00MDY3LWEzOTQtN2YxNTJlYjBkZGJkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Final Fantasy XV (PS4)---------------------------------10--(https://m.media-amazon.com/images/M/MV5BZDZhYmIzMjgtYzhiMy00NzgxLWExMDktNzY0MGZmZTAyYWY2XkEyXkFqcGc@._V1_.jpg)
+const loginScreen = document.getElementById('loginScreen');
+const loginBtn = document.getElementById('loginBtn');
+const pwdInput = document.getElementById('pwd');
+const loginErr = document.getElementById('loginErr');
 
-2017
--Crash Bandicoot: The Huge Adventure (GBA)--------------7,5--(https://howlongtobeat.com/games/1974_Crash_Bandicoot_The_Huge_Adventure.jpg)
--Sonic & All Star Racing Transformer (PC)---------------8,5--(https://m.media-amazon.com/images/M/MV5BYjgwNGIyMzUtMmUyZi00NTMwLWFjNDgtYWFmOGU5ZDFmNzg3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Batman Arckam Knight: Batgirl DLC (PS4)----------------8--(https://cdn2.steamgriddb.com/thumb/fe849456e72e7ae4ba57a45d86b56086.jpg)
--Everybody's gone to the Rapture (PS4)------------------9--(https://pics.filmaffinity.com/everybody_s_gone_to_the_rapture-453115170-large.jpg)
--Dinasty Warriors Next (Vita)---------------------------6--(https://assets.altarofgaming.com/wp-content/uploads/2022/01/dynasty-warriors-next-poster-art-altar-of-gaming-726x1024.jpg)
--Zelda: Breath of the Wild (Wii U)----------------------10--(https://assets.nintendo.eu/image/upload/v1715574259/NAL/Documents/botw-wallpaper/NSwitch_TheLegendOfZeldaBreathOfTheWild_wp_mobile_01.jpg)
--A king's Tale: Final Fantasy XV (PS4)------------------7,5--(https://parentingpatch.com/wp-content/uploads/2025/08/A-Kings-Tale-Final-Fantasy-XV-2016-vertical-video-game-poster.jpg)
--8bits Bayonetta (PC)-----------------------------------6,5--(https://images.launchbox-app.com/f0edeaa6-a3ef-4c8c-aec0-5362db425d3c.png)
--Tearaway Unfolded (PS4)--------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BZGNkYTUyOGItNmFmZC00YzA3LWJkNmMtOGM4NWE2YjFiY2JjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Year Walk (PC)-----------------------------------------8,5--(https://www.gamerevolution.com/wp-content/uploads/sites/2/2022/10/phj1lxdsj8wmqrbp9zwg.jpg)
--Killzone: Mercenary (Vita)-----------------------------7,5--(https://m.media-amazon.com/images/M/MV5BY2VjYmU3N2UtMGIxZC00OWQwLTlmODktYzcxOTZjMjRjYjc3XkEyXkFqcGc@._V1_.jpg)
--Saint Row: Gat out of Hell (PS4)-----------------------7,5--(https://media.vandal.net/m/25945/saints-row-gat-out-of-hell-2014829185626_1.jpg)
--The Legend of Korra (PC)-------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BNzI0YmExMWYtZTY4Yy00OWVlLWFhYzEtMjEwNDBkOGQ3YjJjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Tekken 6 (PS3)-----------------------------------------8--(https://m.media-amazon.com/images/M/MV5BODU1MjZlY2EtZmI1Ny00M2JiLWJlMTMtNDVlMDU3MmI4NWFiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Hyper Void (PS4)---------------------------------------6--(https://assets2.ignimgs.com/2015/09/01/hyper-void-buttonjpg-03c99e.jpg)
--The Evil Within (PS4)----------------------------------9--(https://m.media-amazon.com/images/M/MV5BMGFhYjkwYjYtMWM1MS00NTc0LTkxY2QtZDhhODRhMjM0YjUxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--The Evil Within: Assignment + Consequences (PS4)-------9--(https://miro.medium.com/v2/resize:fit:1200/1*wJd33nEmaRKL4t7HiIhs_A.png)
--The Witcher 2: Assassins of Kings (PC)-----------------8--(https://tse4.mm.bing.net/th/id/OIP.18zGqr1VcLB7eRxnBuT_3AHaLG?cb=defcachec2&rs=1&pid=ImgDetMain&o=7&rm=3)
--140 (PC)-----------------------------------------------7--(https://howlongtobeat.com/games/140_game_cover.jpg)
--The Plan (PC)------------------------------------------6,5--(https://www.gamerevolution.com/wp-content/uploads/sites/2/2022/10/co2v03.jpg)
--Crash Bandicoot 2 NST (PS4)----------------------------10--(https://i5.walmartimages.com/seo/Crash-Bandicoot-2-Key-Art-Poster-Print-22-x-34_b4343577-5b72-4527-a615-7d1fce33e80d.6ee098fb1678e7fe2a9fc11753e4e496.jpeg)
--Adventures of Shuggy (PC)------------------------------5--(https://m.media-amazon.com/images/M/MV5BNDUwYWU0NjItMzZmZS00NDhlLWI2MjAtNDRiZjAyNzYxZjE4XkEyXkFqcGc@._V1_.jpg)
--Mountain (PC)------------------------------------------7--(https://tse1.mm.bing.net/th/id/OIP.OXwIiIEMQlVmnCGnXAdbUgAAAA?cb=defcachec2&w=267&h=400&rs=1&pid=ImgDetMain&o=7&rm=3)
--Horizon Zero Down (PS4)--------------------------------10--(https://m.media-amazon.com/images/M/MV5BNGY2NjUzOTItMjkzNS00NzNiLWIwY2MtMzQ3MDIwY2RlNjdjXkEyXkFqcGc@._V1_.jpg)
--Jotun (PC)---------------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BZjcwNWViOTgtMjllZC00ODA0LWFiMDktNjVhN2ZlNjI1MGUxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Little Nightmares (PS4)--------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BMmQ1ZTliNjgtNWE4NC00NDQ5LWIwMjUtYzVjY2U1YzFmMWIxXkEyXkFqcGc@._V1_.jpg)
--Crash Bandicoot NTS (PS4)------------------------------8,5--(https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/1280x1280/products/3229724/6216088/TIARP17223__63016.1709701310.jpg)
--Metal Slug Defense (PC)--------------------------------6,5--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/mixcollage-29-dec-2024-10-34-am-2302.jpg)
--Final Fantasy XII The Zodiac Age (PS4)-----------------10--(https://m.media-amazon.com/images/M/MV5BYmFlNGVkMTMtOThkNi00MWQwLWEzOTItODFhNjVkMDhjZWU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Sonic 2 (PSP)------------------------------------------8,5--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/mixcollage-03-dec-2024-09-14-pm-2933.jpg)
--Super Mario Land 2: 6 Golden Coins (GB)----------------8--(https://pics.filmaffinity.com/super_mario_land_2_6_golden_coins-789036267-large.jpg)
--Super Mario Galaxy 2 (Wii)-----------------------------10--(https://i.pinimg.com/736x/9c/bd/18/9cbd18d413a800c41c2d6c31cf9f4fa0.jpg)
--NES Rremix (Wii U)-------------------------------------7--(https://assets-prd.ignimgs.com/2020/09/04/nes-remix-1-button-1599257521635.jpg)
--Dragon's Lair II: Time Warp (PC)-----------------------6,5--(https://m.media-amazon.com/images/M/MV5BZmVhOWJmYTctN2EwZC00ZWJmLTk2ZDItMzU1OGM3YjhkNWM1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Harry Potter y el Prisionero de Azkaban (PC)-----------5--(https://m.media-amazon.com/images/M/MV5BODg3ZjUxZDAtY2U3Yi00NmYxLTk3NmUtZTIyMGZlZTU1MmRjXkEyXkFqcGc@._V1_.jpg)
--Rayman Origin (PC)-------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BNjUwNDA5NWItOGNkMy00ZjJkLThkZDUtMDdlYjMyZDlkZDdkXkEyXkFqcGc@._V1_.jpg)
--Killer is Dead (PC)------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BNDFkYTNiYjctNWFmZS00MmFjLThmMzQtYjNhZTI3MjRkMmIxXkEyXkFqcGc@._V1_.jpg)
--Threes (Móvil)-----------------------------------------7,5--(https://m.media-amazon.com/images/I/61naMHZglkL.png)
--The Witcher 3: Wild Hunt (PS4)-------------------------9,5--(https://image.api.playstation.com/vulcan/ap/rnd/202211/0711/kh4MUIuMmHlktOHar3lVl6rY.png)
+function token() { return localStorage.getItem('accessToken'); }
+function checkLogin() { loginScreen.style.display = token() ? 'none' : 'flex'; }
 
-2018
--Emily is away too (PC)---------------------------------8,5--(https://howlongtobeat.com/games/46117_Emily_is_away_Too.jpg)
--South Park: La vara de la verdad (PC)------------------9--(https://store.ubisoft.com/on/demandware.static/-/Sites-masterCatalog/default/dw2e21cff9/images/large/56c494ad88a7e300458b4d44.jpg)
--Downwell (PC)------------------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BN2Q3NTg5ZmEtODk0MC00ZjA2LWE1MzctOTZlNDY2ODBmMmZlXkEyXkFqcGc@._V1_.jpg)
--Doki Doki Literature Club (PC)-------------------------9--(https://m.media-amazon.com/images/M/MV5BOTlkYTc5YTktZDlhOS00YmUyLTk2NTUtZDEwNjU2OWU0ZmRhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Uncharted 4 (PS4)--------------------------------------10--(https://m.media-amazon.com/images/M/MV5BNTFmN2M0MGMtMTI5Ny00NzRlLWFlZGYtZDM0N2VmOTUwYTdmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Crossing Souls (PC)------------------------------------8,5--(https://img.opencritic.com/game/5525/o/ShHBLzDL.jpg)
--Pinout (Móvil)-----------------------------------------5--(https://images.igdb.com/igdb/image/upload/t_cover_big_2x/co1t4o.jpg)
--Entiérrame, mi amor (Móvil)----------------------------7,5--(https://assets-prd.ignimgs.com/2023/01/21/burymemylove-1674263147182.jpg)
--Nier Automata (PS4)------------------------------------10--(https://m.media-amazon.com/images/M/MV5BMjJhZjJlMWYtZWI2ZC00MDYyLWE3ODgtMGMxOWRlMzU0YzgwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Pokémon Y (3DS)----------------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BZDdiZTEzNzQtMDRiYS00ZjQwLWEzZmEtOWRmZTdmY2JkMzY4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Uncharted: The Lost Legacy (PS4)-----------------------9,5--(https://m.media-amazon.com/images/M/MV5BNWI0NjM3YmYtOGFkYy00Y2I5LThkNmYtOTIzODdkYWJjNzlhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Loading Screen Simulator (PC)--------------------------2--(https://cdn2.steamgriddb.com/grid/f129530f2815c91835b914b7486df583.png)
--Dirt 3 (PC)--------------------------------------------6,5--(https://a.allegroimg.com/original/11d84b/394fee63499197ed1ad680cb4c5b/DiRT-3-Complete-Edition-Steam-Kod-Klucz)
--Bethesda Pinball (Móvil)-------------------------------7,5--(https://imgproxy.eneba.games/5JFx4OOYHcIdDaZ4HG8bDx84ErY8Dlgg4QYFcC35XqE/rs:fit:350/ar:1/czM6Ly9wcm9kdWN0/cy5lbmViYS5nYW1l/cy9wcm9kdWN0cy9y/OUtfYjVxYnBINV9u/SEVDWkF3WVZ3TlQ1/NDlfSmIwT21XLTlE/dVQ0c2prLmpwZw)
--God of War (PS4)---------------------------------------10--(https://m.media-amazon.com/images/M/MV5BNjJiNTFhY2QtNzZkYi00MDNiLWEzNGEtNWE1NzBkOWIxNmY5XkEyXkFqcGc@._V1_.jpg)
--Unravel (Xbox One)-------------------------------------9--(https://m.media-amazon.com/images/M/MV5BYTkxZjU5MWMtM2E2Zi00ZTYzLWE4MWMtYTEyMjVlOGM4MjNlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Crash Bandicoot 3 Warped NST (PS4)---------------------8,5--(https://i.pinimg.com/1200x/5c/7f/80/5c7f804857ec9c03c402de38865fdd5f.jpg)
--Super Mario 3DWorld (Wii U)----------------------------10--(https://i.pinimg.com/564x/61/6f/08/616f08ffa5235d5ffaaa618a7a9c9450.jpg)
--Las Aventuras del Capitán Spirit (PS4)-----------------7--(https://www.anaitgames.com/images/uploads/2018/06/analisis-de-las-increibles-aventuras-de-captain-spirit.jpg)
--Tacoma (PC)--------------------------------------------6--(https://i.pinimg.com/474x/52/48/6f/52486f2f13d4bf1e4e1c1076a8cac3ab.jpg)
--Mario Tennis Ultra Smash (Wii U)-----------------------6,5--(https://m.media-amazon.com/images/M/MV5BYmJmZjQzNmMtYzVmNC00N2RiLWEzNDAtMDBhY2MxMmU0OWFlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Rollers of the Realms (PC)-----------------------------6--(https://cdn2.steamgriddb.com/thumb/121030d13bcdc20030222d172cbb797b.jpg)
--Dragon Ball Legends (Móvil)----------------------------7--(https://m.media-amazon.com/images/M/MV5BNTdiYTNjYTYtNWJlYy00MzdkLWFhYTQtNzI4ODgxN2Q4MmRmXkEyXkFqcGc@._V1_.jpg)
--Pokémon Go (Móvil)-------------------------------------8--(https://m.media-amazon.com/images/M/MV5BYTJkNDRhMzAtMzVmOS00ZTE2LTllNzAtOTRiN2M2ZTA4OTI0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Red Dead Redemption 2 (PS4)----------------------------10--(https://m.media-amazon.com/images/I/71PrNDWXLIL.jpg)
+async function login() {
+  loginErr.textContent = '';
+  const res = await fetch(`${API_BASE}/auth/login`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: 'admin', password: pwdInput.value })
+  });
+  if (!res.ok) { loginErr.textContent = 'Credenciales inválidas'; return; }
+  const data = await res.json();
+  localStorage.setItem('accessToken', data.accessToken);
+  localStorage.setItem('refreshToken', data.refreshToken);
+  checkLogin();
+  await loadGames();
+}
 
-2019
--Super Mario Land Hack Color (GB)-----------------------9--(https://www.romhacking.net/hacks/gameboy/images/titles/1187titlescreen.png)
--Marvel Spider-Man (PS4)--------------------------------10--(https://image.api.playstation.com/vulcan/ap/rnd/202011/0402/AcjaXqwZzggGiKLFdEfHMp0H.png)
--Kingdom Hearts 358/2 (PS3)-----------------------------7--(https://tcrf.net/images/7/7b/Kingdom_Hearts_3582_Days-title.png)
--Kingdom Hearts 0.2 (PS4)-------------------------------8,5--(https://pics.filmaffinity.com/kingdom_hearts_0_2_birth_by_sleep_a_fragmentary_passage-650698154-large.jpg)
--Kingdom Hearts 3 (PS4)---------------------------------9--(https://m.media-amazon.com/images/M/MV5BNzNjMGZkYWUtNmE5Yy00MmFiLThmZmYtMTkxMTBiMjQ0Yjc0XkEyXkFqcGc@._V1_.jpg)
--Nuclear Throne (PC)------------------------------------9--(https://m.media-amazon.com/images/M/MV5BM2MwMWRiYWYtMDFiOC00NWU5LTgzMTAtZGQzNmI1MTlhZjViXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--A Way Out (Xbox One)-----------------------------------8--(https://m.media-amazon.com/images/M/MV5BYTg1YjBhYzQtNDBhMi00NTY2LTk0MTgtZDk0MWFhOTNkYWE3XkEyXkFqcGdeQXVyNDQ2MTMzODA@._V1_FMjpg_UX1000_.jpg)
--Shadow of the Colossus (PS4)---------------------------10--(https://m.media-amazon.com/images/M/MV5BMTgxNzgwNmYtNWQ5My00ZjI4LWJmZTEtZDFmMThjNWNlZjg5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Resident Evil 7 (PS4)----------------------------------9--(https://m.media-amazon.com/images/M/MV5BN2UwMWE5NTEtM2NhZC00YThjLWE0NWItNTRkNmFlNDNkNjBmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Okami HD (PS4)-----------------------------------------10--(https://m.media-amazon.com/images/M/MV5BYTkxMWI5YmEtZDRmMi00NTU0LWJjMzctNDE0YWM3MmNkNWFkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Ratchet and Clank (PS4)--------------------------------9--(https://i.ebayimg.com/images/g/TvkAAOSwaeZkbVsh/s-l1200.jpg)
--Wonderful 101 (Wii U)----------------------------------10--(https://m.media-amazon.com/images/M/MV5BYWFlNTFkZmEtMmQzYy00NTAwLThhOGUtZGZkZjc5NThiMDU2XkEyXkFqcGc@._V1_.jpg)
--Crash Team Racing Nitro Fueled (PS4)-------------------9,5--(https://m.media-amazon.com/images/M/MV5BNWM0MmJlMTEtOGRhZS00MTdkLTkyNWUtOWZhOTY4YjcwN2ZmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Marvel Spider-Man La ciudad nunca duerme (PS4)---------9--(https://image.api.playstation.com/cdn/EP9000/CUSA11993_00/PHxAIn3izCgh36q9n7T9aeApDbIputMB.png)
--Dr Mario World (Móvil)---------------------------------4,5--(https://shibachanman.com/wp-content/uploads/2019/07/drmarioworld_2.jpg)
--Pokken Tournament (Wii U)------------------------------8--(https://m.media-amazon.com/images/M/MV5BMzU2ZDUxMmMtOTk4MS00NGY3LWJmZjctYWU3MjM5NDE0ZDcwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Star Wars Race Revenge (PS2)---------------------------5--(https://www.gamespot.com/a/uploads/scale_medium/mig/2/7/1/0/2212710-box_swrr.png)
--Death Stranding (PS4)----------------------------------10--(https://m.media-amazon.com/images/M/MV5BOWQ2NGFkNjUtYTg1ZS00MTA2LWFlODEtZWU2NDQzOTFiYTQxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
-
-2020
--Star Wars Battlefront 2 (PS4)--------------------------8--(https://blakus.com/wp-content/uploads/2021/03/Battlefront-2-poster5.jpg)
--Dragon Quest XI (PS4)----------------------------------9--(https://wallpaperaccess.com/full/2478498.jpg)
--A Short Hike (PC)--------------------------------------8--(https://m.media-amazon.com/images/M/MV5BMjllNmEwYTctMjYxYi00MmJkLWFhY2EtMTIyZTdmZTJjMWIzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--HellBlade (Xbox One)-----------------------------------9,5--(https://cdnb.artstation.com/p/assets/images/images/017/202/551/large/hugues-giboire-promoart-small.jpg)
--Sonic Mania (PC)---------------------------------------9-(https://m.media-amazon.com/images/M/MV5BMWJlZTRkZmEtZjA1OS00YzYwLTlhYTAtZmJjYWYxYWJhOTFjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Layers of Fear (PC)------------------------------------7,5--(https://cdn.spaziogames.it/storage/products/images/aARJJaYmhuGy1odyPI0TJAYPQeqmrUyrpk4qTJpw.jpg)
--Bayonetta (PC)-----------------------------------------10--(https://m.media-amazon.com/images/M/MV5BYjRjOWY4ODctZDIyMy00ZThiLTg3NmItZDc3ZjZkN2JmZTkwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Final Fantasy VII Remake (PS4)-------------------------10--(https://pics.filmaffinity.com/final_fantasy_vii_remake-307143687-large.jpg)
--The Stanley Parable (PC)-------------------------------9--(https://e.snmc.io/lk/f/x/1425c5d447defc05733f6946005c58c4/8889899)
--Street of Rage 4 (PC)----------------------------------8--(https://www.gematsu.com/wp-content/uploads/2023/03/Game-Page-Box-Art_Streets-of-Rage-4.jpg)
--Gears of War Ultimate Edition (PC)---------------------8--(https://pressakey.com/gfxgames/boxart/full/Gears-of-War-Ultimate-Edition-3428-1603156687.jpg)
--Detroit Become Human (PS4)-----------------------------8,5--(https://m.media-amazon.com/images/M/MV5BYjBiZTAwYzQtZDkyMC00NjM4LWI5ODUtNWM3NGE3YjZjY2M1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Unravel 2 (Xbox One)-----------------------------------7,5--(https://m.media-amazon.com/images/M/MV5BYzZmYzBhMjYtZjcyZC00NmJjLThlZmItMjM0NjU0NTk1YmMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Resident Evil 2 Remake (Xbox One)----------------------9,5--(https://m.media-amazon.com/images/M/MV5BNDFhYjRjMzQtNDQxMC00ODMyLWJjZmItOTM1MWVhYjRmZTA5XkEyXkFqcGc@._V1_.jpg)
--Dragon Ball Z Kakarot (PS4)----------------------------8--(https://m.media-amazon.com/images/M/MV5BODNkY2M4M2MtODY0ZS00MzJiLWEzOTktMjEzZmMwM2ZmN2ZmXkEyXkFqcGc@._V1_.jpg)
--The Last of Us Parte II (PS4)--------------------------10--(https://m.media-amazon.com/images/M/MV5BODIwYWZmYWMtYTliNC00YWQ5LTg5ZmEtNTZhNmUxNjdiMzNiXkEyXkFqcGc@._V1_.jpg)
--Ori and the Wild of the Wisps (PC)---------------------10--(https://respawwn.com/wp-content/uploads/2020/06/Ori-and-the-Will-of-the-Wisps-box.jpg)
--Undertale (PC)-----------------------------------------7--(https://m.media-amazon.com/images/M/MV5BYmYxY2E3MjktYmIxNi00MGZiLWJlM2UtYjQ2ZTkwZDVmMDE2XkEyXkFqcGc@._V1_.jpg)
--Medievil (PS4)-----------------------------------------8--(https://m.media-amazon.com/images/M/MV5BZjZlN2ZkNjAtYmQ1Ni00YTA2LTgxOTMtZTQ4NTQ5ZmYyYmYwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Carrion (PC)-------------------------------------------9--(https://m.media-amazon.com/images/M/MV5BYzVkN2JiMzYtMDRjMC00M2E3LTk4YzgtZGNhYTQ2YjE3NzkyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Yakuza 0 (PC)------------------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BZGMyMDBjZWMtMjFkNi00OWI1LWIyNmUtMDlkNDRiMjUyYWE2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Dragon Ball FighterZ (PC)------------------------------10--(https://m.media-amazon.com/images/M/MV5BY2E1YmJjMzktZTkwNC00ODY1LWIyNzMtMWVmZWRhOWY4MjE0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Forza Horizon 4 (PC)-----------------------------------10--(https://www.games2egypt.com/Images/Products/26961?fileFormat=1)
--Battletoads (PC)---------------------------------------7--(https://m.media-amazon.com/images/M/MV5BODliYzM1NzctNjZkMC00ZDQ0LTgwZTMtOTI1Njc4YjczMTBlXkEyXkFqcGc@._V1_.jpg)
--Animal Crossing: New Horizon (Switch)------------------8,5--(https://static.actugaming.net/media/2019/03/animal-crossing-new-horizons-jaquette.jpg)
--Dark Souls Remastered (PS4)----------------------------9,5--(https://sm.ign.com/t/ign_ap/gallery/d/dark-souls/dark-souls-remastered-box-art_v6sv.1400.jpg)
--Pokémon Let's Go Eeve (Switch)-------------------------9,5--(https://m.media-amazon.com/images/M/MV5BZjRkZGYyN2EtOWVkYy00MmQ0LTkyNzctZjk2OWUyNDUzZjVmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Super Mario Bros: The Lost Levels (SNES)---------------8,5--(https://m.media-amazon.com/images/M/MV5BZDVhOTA0NzYtNGNiNy00Y2IzLTgxZTctMWYwYzYzZmQwMjA2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Tony Hawk's Pro Skater 1 + 2 (PS4)---------------------10--(https://m.media-amazon.com/images/M/MV5BNTRlZTUzNDAtYWZmYi00NjRhLTg3ODYtZjljZDRmM2JjOTBhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Forza Motorsport 7 (PC)--------------------------------8--(https://m.media-amazon.com/images/M/MV5BNjk2MGQ1MjMtODgyMC00YWZjLWI1YjItZDk3M2Y0ZDg1ZDU0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Star Wars Jedi: Fallen Order (PC)----------------------9--(https://image.api.playstation.com/vulcan/ap/rnd/202012/1013/DKYIpVhskEQ4jbzr1PVxsO0Z.png)
--Cyberpunk 2077 (PC)------------------------------------10--(https://image.api.playstation.com/vulcan/ap/rnd/202008/0416/zQQg225xOUnIVN8ND2DqEPUE.jpg)
--Inside (PC)--------------------------------------------8--(https://store-images.s-microsoft.com/image/apps.57857.65290118777571754.6267d8c2-383e-428a-9ec3-ab8b52cdb946.587d40ca-3391-41db-b9fe-be44f2174488)
--Super Mario Odissey (Switch)---------------------------10--(https://static.posters.cz/image/750/50045.jpg)
--Florence (Móvil)---------------------------------------8--(https://images.igdb.com/igdb/image/upload/t_cover_big/co295l.webp)
-
-2021
--Crash Team Racing Nitro Fueled (Switch)----------------9,5--(https://m.media-amazon.com/images/M/MV5BNWM0MmJlMTEtOGRhZS00MTdkLTkyNWUtOWZhOTY4YjcwN2ZmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Tetris Effect Connected (PC)---------------------------9--(https://mediamaster.vandal.net/m/133801/tetris-effect-connected-2023359282979_13.jpg)
--It Takes Two (Xbox One)--------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BM2YyMDg4YzctMWFlYy00YWNhLWFkNDQtOTZlZjBkMDU5YTdmXkEyXkFqcGc@._V1_.jpg)
--Devil May Cry 4 (PC)-----------------------------------8,5--(https://i.playground.ru/e/fiCZBqPiDUSK8tUiXvzC9Q.jpeg)
--Final Fantasy XV (PC)----------------------------------10--(https://www.1c-interes.ru/images/2018/08/27160190_FFXV_PC.jpg)
--Final Fantasy XV: Episodio Gladiolus (PC)--------------8--(https://image.api.playstation.com/cdn/EP0082/CUSA01615_00/8dPS7DKRwexY49bfQ6vt5q1ok3peKZ2m.png)
--Final Fantasy XV: Episodio Prompto (PC)----------------6--(https://cdn2.steamgriddb.com/grid/aaaa5055921deb0cc0e3a99a210cc059.png)
--Marvel vs Capcom: Infinite (PC)------------------------6,5--(https://cdn.cdkeys.com/496x700/media/catalog/product/m/a/marvel_vs._capcom_infinite_pc_cover.jpg)
--Zelda Link's Awakening (Switch)------------------------9,5--(https://m.media-amazon.com/images/I/71Kd4k8Q+-L.jpg)
--Final Fantasy XV: Episodio Ignis (PC)------------------8,5--(https://m.media-amazon.com/images/M/MV5BNTQ3ZGNlYjQtOGFkMi00ODBlLWJhZmItNzFhZDNiYTQzOGUwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--The Hex (PC)-------------------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BOGU2MDlmOTQtYTExMy00YzIzLTkwMzQtYzlmY2VkMmNhMzA3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Wolfenstein: The New Order (PC)------------------------8--(https://m.media-amazon.com/images/M/MV5BZmZkOWRiODYtNWUxMS00ZDQ4LTlkMmQtOTA3YzE5YjQ2OWQ1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Forza Motorsport 7 (PC)--------------------------------9--(https://cdn.mobygames.com/covers/3753225-forza-motorsport-7-ultimate-edition-windows-apps-front-cover.jpg)
--Super Mario Land (GB)----------------------------------9--(https://pics.filmaffinity.com/super_mario_land-925705521-large.jpg)
--Metal Gear Solid V: Ground Zeroes (PC)-----------------9,5--(https://i.etsystatic.com/10064703/r/il/d923a0/808214478/il_1080xN.808214478_o2ej.jpg)
--Unpacking (PC)-----------------------------------------8,5--(https://cdn.mobygames.com/covers/10129198-unpacking-windows-apps-front-cover.jpg)
--Scarlet Nexus (PC)-------------------------------------8,5--(https://image.api.playstation.com/vulcan/ap/rnd/202011/1916/sdi5qo2fCTE3I4hwOwW7o66q.jpg)
--Sonic 2 (Megadrive)------------------------------------9--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/mixcollage-03-dec-2024-09-14-pm-2933.jpg)
--Halo: Combat Evolved (PC)------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BZWIyNzFkMzItNmIyNS00OWMyLWI3MWYtZjg1ZmJmZjdlODI0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Exo One (PC)-------------------------------------------6,5--(https://i.gadgets360cdn.com/products/large/EGS-1000x1333-1644577637.jpg)
--Resident Evil Remaster (Xbox One)----------------------8,5--(https://cdn.cdkeys.com/496x700/media/catalog/product/r/e/resident_evil_hd_remaster.png)
--Mario Kart 8 Deluxe (Switch)---------------------------10--(https://static0.cbrimages.com/wordpress/wp-content/uploads/sharedimages/2024/12/mixcollage-25-dec-2024-03-53-am-3757.jpg)
--Marvel Spider-Man Miles Morales (PS4)------------------9--(https://m.media-amazon.com/images/M/MV5BZTc0MjdjN2QtOTc5Ni00N2NjLTk4NGQtMWYzODE1OTdhOTAzXkEyXkFqcGc@._V1_.jpg)
--Cookie Clicker (PC)------------------------------------8,5--(https://media.moddb.com/images/games/1/79/78552/boxart.jpg)
--Forza Horizon 5 (PC)-----------------------------------10--(https://cdn.crossplaygames.com/wp-content/uploads/2022/10/forza-horizon-5_cover.jpg)
--Inscryption (PC)---------------------------------------9--(https://m.media-amazon.com/images/M/MV5BYjBhNmNmNDktOWFjYi00YzIzLThmOTEtMTMxNjE0MmI4MGM1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Final Fantasy XV: Episodio Ardyn (PC)------------------8--(https://m.media-amazon.com/images/M/MV5BY2U2OTQ1YzMtOWZiMC00MDJjLWFhMjAtZTE4YmJkNDdhMzRlXkEyXkFqcGc@._V1_.jpg)
-
-2022
--Captain Tsubasa: Rise of New Champions (PC)------------7,5--(https://cdn.cdkeys.com/496x700/media/catalog/product/c/a/captain_tsubasa_rise_of_new_champions.png)
--Gris (Switch)------------------------------------------8,5--(https://image.api.playstation.com/vulcan/ap/rnd/202211/1801/PMjvy3y1p6gkPsBwCUuaFnfv.jpg)
--Final Fantasy VII Remake: Intermission (PC)------------9,5--(https://m.media-amazon.com/images/M/MV5BMGYwOTFiYWEtNmY4Yy00NmUwLWJiN2ItZjNkMTk5NDg2MTc3XkEyXkFqcGc@._V1_.jpg)
--Pokémon Escudo (Switch)--------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BYzkxNjYzYmQtOWQzMi00YjRlLThjNjItN2YxYmE0MGE4NjkzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Pokémon Leyendas: Arceus (Switch)----------------------9,5--(https://pics.filmaffinity.com/pokemon_legends_arceus-262150528-large.jpg)
--Elden Ring (PC)----------------------------------------10--(https://m.media-amazon.com/images/M/MV5BZGQxMjYyOTUtNjYyMC00NzdmLWI4YmYtMDhiODU3Njc5ZDJkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Aperture Desk Job (PC)---------------------------------7,5--(https://m.media-amazon.com/images/M/MV5BNjY1MDRkMjAtN2RhNy00YmY0LTlkZDctNDIxNzM2MzM2ZTYyXkEyXkFqcGc@._V1_.jpg)
--OlliOlli World (PC)------------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BMWJhMGNjZWMtZmZkNC00MjBiLTkxNTYtZWY3MTQzYTA1NjkyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Marvel's Guardian of the Galaxy (PC)-------------------8--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/11/mixcollage-24-nov-2024-11-09-pm-6745.jpg)
--Final Fantasy VI Pixel Remaster (PC)-------------------10--(https://m.media-amazon.com/images/M/MV5BNjY1NzY1N2ItZjczMy00YjM1LTk0ZDMtODFiOTMyMzczNTIyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Ninja Turtles: Shredder's Revenge (PC, Xbox One)-------8,5--(https://m.media-amazon.com/images/M/MV5BNjZhZGE0MDAtNWU0Ny00ZjI0LTk0YzEtZjRjNzllYjVmOGVjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Devil May Cry 5 (PC)-----------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BNjE2MTNiYTItOWY1NS00ZWFiLThhMTMtMmFlNWFjNjRmZTQ2XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Kurushi (PSX)------------------------------------------8--(https://cdn2.steamgriddb.com/thumb/774c597f41ac68182c6495057d29c7fd.png)
--Hollow Knight (Xbox One, PC)---------------------------9--(https://m.media-amazon.com/images/M/MV5BMGIyYmJmZDgtOWQ1Ny00NDFiLTk2OTgtM2Q2ZWQ4OWIxZjg3XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Stray (PS4)--------------------------------------------8--(https://m.media-amazon.com/images/M/MV5BYzJiNTQwNWMtNzhmNi00MjFiLWE1OTctNjZmMGYwODEwNWIwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Astro's Playroom (PS5)---------------------------------9,5--(https://image.api.playstation.com/vulcan/ap/rnd/202502/1908/5c3f6eb25719d364f490736453e9dc420ed6b92761b8248b.png)
--Marvel Spider-Man Miles Morales (PS5)------------------9--(https://m.media-amazon.com/images/M/MV5BZTc0MjdjN2QtOTc5Ni00N2NjLTk4NGQtMWYzODE1OTdhOTAzXkEyXkFqcGc@._V1_.jpg)
--Bayonetta (Switch)-------------------------------------10--(https://m.media-amazon.com/images/M/MV5BMzA0MDMyNWYtMjQ5Yy00YjcyLWExMWQtYmM5Zjk5MzE3YTU4XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Bayonetta 2 (Switch)-----------------------------------10--(https://m.media-amazon.com/images/M/MV5BM2Y4YmMxZmYtMmQ2MC00MDQwLWE0NmYtMTFiYzc4YjkwN2ZkXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Bayonetta 3 (Switch)-----------------------------------10--(https://i.etsystatic.com/37268737/r/il/3f949c/4231838103/il_1080xN.4231838103_7sbt.jpg)
--God of War: Ragnarok (PS5)-----------------------------9,5--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/mixcollage-08-dec-2024-01-22-pm-530.jpg)
--Taiko no Tatsujin: The Drum Master! (PC)---------------8--(https://tse1.mm.bing.net/th/id/OIP.19TNLVEOJcyxyAdoikwcOgHaLH?rs=1&pid=ImgDetMain&o=7&rm=3)
--Resident Evil: Village (Xbox Series X)-----------------9--(https://m.media-amazon.com/images/M/MV5BOTFlZTlmZmYtZWZhNS00Yjk4LTg2Y2ItMWY4MjgyMmMyMjNlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Vampire Survivors (PC)---------------------------------8,5--(https://cdn1.epicgames.com/spt-assets/6091b3f3943e4a7aa25fcac13de15cd1/vampire-survivors-1obv8.jpg)
--Final Fantasy VII Reunion: Cisis Core (PS5)------------10--(https://m.media-amazon.com/images/M/MV5BMDY3ZDk1OTgtNWM4ZC00YjY0LWE1Y2EtZTYzMmRmNTRkMGFjXkEyXkFqcGc@._V1_.jpg)
--Aperture Desk Job (Steam Deck)-------------------------7,5--(https://m.media-amazon.com/images/M/MV5BNjY1MDRkMjAtN2RhNy00YmY0LTlkZDctNDIxNzM2MzM2ZTYyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Poinpy (Móvil)-----------------------------------------9--(https://www.anaitgames.com/wp-content/uploads/2022/06/poinpy-art-1.jpg)
--Ryse: Son of Rome (Steam Deck)-------------------------5--(https://imgproxy.eneba.games/xXk6nTfwhqa3ClCvoSbjeVUdVG7-0XBL4RYxWEbXCz8/rs:fit:700/ar:1/czM6Ly9wcm9kdWN0/cy5lbmViYS5nYW1l/cy9wcm9kdWN0cy9t/YnAwdXc3amlnMmVi/b2gyb2h5aS5qcGc)
-
-2023
--Crash Bandicoot 2 NST (Steam Deck)---------------------9,5--(https://i5.walmartimages.com/seo/Crash-Bandicoot-2-Key-Art-Poster-Print-22-x-34_b4343577-5b72-4527-a615-7d1fce33e80d.6ee098fb1678e7fe2a9fc11753e4e496.jpeg)
--Pokémon Escarlata (Switch)-----------------------------7--(https://images.igdb.com/igdb/image/upload/t_1080p_2x/co5sfi.webp)
--Dragon Ball Z Kakarot (PS5)----------------------------8--(https://pics.filmaffinity.com/dragon_ball_z_kakarot-575346285-large.jpg)
--SNK Heroines Tag Team Frenzy (Switch)------------------6,5--(https://media.senscritique.com/media/000018010455/source_big/SNK_Heroines_Tag_Team_Frenzy.jpg)
--Hi-Fi RUSH (PC)----------------------------------------10--(https://m.media-amazon.com/images/M/MV5BZWJlZTM2OWYtYTkxZC00OTQyLThjOWEtN2VkOGE1MTFmNGQxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Kirby's Dream Land (GB)--------------------------------7,5--(https://m.media-amazon.com/images/M/MV5BYjFkOWZjNGQtMTYzOS00MGNmLWE2YjctNjZjY2ViODExNmNiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Hogwarts Legacy (PS5)----------------------------------8--(https://m.media-amazon.com/images/M/MV5BYjJiYjI4YTYtOTU5OC00YjgxLWJmMzYtMTg0ZTY4NzI5YmExXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Titanfall 2 (PC)---------------------------------------9,5--(https://m.media-amazon.com/images/M/MV5BZGYzOGI0YzUtYzFiMS00OWMwLWJjMTQtYjk2OTEwNTQ1M2I0XkEyXkFqcGc@._V1_.jpg)
--Sonic 4: Episode 1 (Steam Deck)------------------------7,5--(https://m.media-amazon.com/images/M/MV5BYjY4MmNjYjUtMWJmMy00ZGEyLTk5ODMtZjVkZjE0ZDRjZDkwXkEyXkFqcGc@._V1_.jpg)
--Resident Evil 4 (PS5)----------------------------------10--(https://static1.srcdn.com/wordpress/wp-content/uploads/2023/02/re4-remake-poster.jpg)
--Metroid Dread (Switch)---------------------------------9--(https://m.media-amazon.com/images/M/MV5BMGZhODhlODYtNGY0OC00OTg4LWIwOTctZTg2NDYzNjQxOTYxXkEyXkFqcGc@._V1_.jpg)
--The Murder of Sonic the Hedgehog (PC)------------------6,5--(https://m.media-amazon.com/images/M/MV5BOGQ1NjhmZGMtZjdkMC00Njg5LTkwZTMtZGM4ZjZmYzQ3OThlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--JoJo's Bizzarre Adeventure: All-Star Battle R (PC)-----8--(https://hobbygames.ru/image/enaza/19150884/box.jpg.jpg)
--Donkey Kong  Country Returns (3DS)---------------------9,5--(https://m.media-amazon.com/images/M/MV5BZWNhM2ZmYzctNmI4YS00OGEzLTlmMDAtNDQyY2ZlNWNjYzYzXkEyXkFqcGc@._V1_.jpg)
--Bayonetta (Steam Deck)---------------------------------10--(https://m.media-amazon.com/images/M/MV5BYjRjOWY4ODctZDIyMy00ZThiLTg3NmItZDc3ZjZkN2JmZTkwXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Zelda: Tears of the Kingdom (Switch)-------------------10--(https://m.media-amazon.com/images/M/MV5BOWU3YTJlMDQtYjUzMS00OTdkLTkyM2EtMTQ4ZWNlOWZmMTM2XkEyXkFqcGc@._V1_.jpg)
--Final Fantasy XVI (PS5)--------------------------------10--(https://m.media-amazon.com/images/M/MV5BYzI3ODVhY2YtNGRjNS00MDg1LWIxMmQtMjliNjViODE5NzA0XkEyXkFqcGc@._V1_.jpg)
--Attack of the Fryday Monsters (3DS)--------------------8--(https://pics.filmaffinity.com/Attack_of_the_Friday_Monsters_A_Tokyo_Tale-825485404-large.jpg)
--Final Fantasy VII Remake (PS5)-------------------------10--(https://pics.filmaffinity.com/final_fantasy_vii_remake-307143687-large.jpg)
--Peagle (Xbox Series X)---------------------------------5,5--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/mixcollage-13-dec-2024-10-50-am-5559.jpg)
--Persona 5 Royal (Switch)-------------------------------10--(https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/1ea08e12-847b-4c43-8433-ff86b833fd7b/dg4d5v2-5a5aad76-4850-45bc-b24d-c6d3cb9d3c39.jpg/v1/fill/w_1280,h_1920,q_75,strp/persona_5_royal_cover___by_blue_leader97_dg4d5v2-fullview.jpg?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MTkyMCIsInBhdGgiOiJcL2ZcLzFlYTA4ZTEyLTg0N2ItNGM0My04NDMzLWZmODZiODMzZmQ3YlwvZGc0ZDV2Mi01YTVhYWQ3Ni00ODUwLTQ1YmMtYjI0ZC1jNmQzY2I5ZDNjMzkuanBnIiwid2lkdGgiOiI8PTEyODAifV1dLCJhdWQiOlsidXJuOnNlcnZpY2U6aW1hZ2Uub3BlcmF0aW9ucyJdfQ.6ha_K20g749fb8Wah6KDqotXUH9P3ZR9MV0t7pvOIHE)
--Marvel Spider-Man 2 (PS5)------------------------------10--(https://m.media-amazon.com/images/M/MV5BZmUwYTNjZTAtOTYxYS00NmM3LTkwODEtNWM2NDNlOGZlYzMyXkEyXkFqcGc@._V1_.jpg)
--Ratchet & Clank: Una dimensión aparte (PS5)------------9--(https://cdn1.epicgames.com/offer/046aeb7098b94ac3961dad6c5dbe68c0/EGS_RatchetClankRiftApart_InsomniacGames_S2_1200x1600-52110dae5ab01644738dac07ac1ea796)
--Metal Gear Solid (PS5)---------------------------------10--(https://howlongtobeat.com/games/5908_Metal_Gear_Solid.jpg)
--Mario Kart 8 Deluxe Booster Pack (Switch)--------------10--(https://cdn.cdkeys.com/media/catalog/product/b/a/babylons-fall-pc-game-steam-cover_2_.jpg)
--Furi Demake (Steam Deck)-------------------------------8--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2025/05/furi-demake-tag-page-cover-art.jpg)
--Resident Evil 2 Remake (PS5)---------------------------8--(https://m.media-amazon.com/images/M/MV5BNDFhYjRjMzQtNDQxMC00ODMyLWJjZmItOTM1MWVhYjRmZTA5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Alan Wake (Steam Deck)---------------------------------9--(https://m.media-amazon.com/images/M/MV5BY2RhNzQ4NTItZmE5OC00ZjdlLTk3ZjItZDIxZDhiNTI1OWNiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--God of War: Ragnarok Valhalla (PS5)--------------------9,5--(https://m.media-amazon.com/images/M/MV5BNmM0Njk4NDItZDU4Zi00Y2I4LTllMDAtNTI4NWY2Y2FlMzAzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Tony Hawk's Pro Skater 1 + 2 (Steam Deck, PC)----------10--(https://cdn1.epicgames.com/deab864e1abf4357b303bcd5ff6fe8da/offer/EGS_TonyHawksProSkater12_VicariousVisions_Editions_S2-1200x1600-727267cd47cc9f0b4122bb1d71b966db.jpg)
--Resident Evil 4: Separate Ways (PS5)-------------------9,5--(https://m.media-amazon.com/images/M/MV5BODc2MTdiODEtNmUwMy00ZTZlLWE3YTEtNWU3ZTJlOGJlNzMyXkEyXkFqcGc@._V1_.jpg)
--Samorost (Móvil)---------------------------------------6--(https://hot.game/uploads/media/game/0001/40/91b09f7b95d4bbaa915828b43c3608a13b94e3a3.jpeg)
--Final Fantasy VII Remake: Intermission (PS5)-----------9,5--(https://m.media-amazon.com/images/M/MV5BMGYwOTFiYWEtNmY4Yy00NmUwLWJiN2ItZjNkMTk5NDg2MTc3XkEyXkFqcGc@._V1_.jpg)
--Forza Horizon 4 LEGO Speed Champions (PC)--------------9--(https://howlongtobeat.com/games/68174_Forza_Horizon_4_LEGO_Speed_Champions.jpg)
--Cracy Taxy (Steam Deck)--------------------------------8--(https://m.media-amazon.com/images/I/71y4hAunCFL.jpg)
--Theatrhythm Final Fantasy (3DS)------------------------8--(https://m.media-amazon.com/images/I/814WgLqBIgL.jpg)
--Unpacking (PS5)----------------------------------------7--(https://cdn.mobygames.com/covers/10129198-unpacking-windows-apps-front-cover.jpg)
-
-2024
--The Amazing Spider-Man (GB)----------------------------8--(https://assets.altarofgaming.com/wp-content/uploads/2022/08/the-amazing-spider-man-1990-game-poster-altar-of-gaming.jpg)
--Yakuza Kiwami (Steam Deck, PC)-------------------------9--(https://m.media-amazon.com/images/M/MV5BYzNjMmRmNDMtZDk0Yy00MDBmLTkxNzgtZTFlNWYyZDhlMzMxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Silent Hill: The Short Message (PS5)-------------------4,5--(https://iwant.games/wp-content/uploads/silent-hill-the-short-message-thumb-468x702.jpg)
--Tekken 7 (PS5)-----------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BYjMwMDBkZjYtNWNjMy00NDcyLTk0NjEtMDVjNGVmZTkzMTRjXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Super Mario Wonder (Switch)----------------------------9,5--(https://m.media-amazon.com/images/M/MV5BNzk0MGFhNzgtZjYzNy00MzI4LWJhOTItYjY2YTA3Zjc1ZGQxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Granblue Fantasy Versus (Steam Deck)-------------------7,5--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2022/11/GranblueFantasyVersusTagPage.jpg)
--Final Fantasy VII Rebirth (PS5)------------------------10--(https://m.media-amazon.com/images/M/MV5BZTNkNzU3NTQtMzAzYy00YzBhLWFiMmMtYzUzZTQ5MmU3OTVlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Dragon Ball Advance Adventure (GBA)--------------------9--(https://pics.filmaffinity.com/dragon_ball_advanced_adventure-274577204-large.jpg)
--ReCore (PC)--------------------------------------------8--(https://static0.gamerantimages.com/wordpress/wp-content/uploads/2024/12/mixcollage-11-dec-2024-08-56-am-2214.jpg)
--Sekiro: Shadows Die Twice (PS5)------------------------10--(https://m.media-amazon.com/images/M/MV5BMzFiM2Y3NmMtNDY3MC00MThhLWFhNmYtZjIzMDNjZmNhMTdhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--The Artful Escape (PS5)--------------------------------7--(https://m.media-amazon.com/images/M/MV5BM2ViOGNhOWUtMjM1ZC00ZTUxLTgwN2EtMTdjYzRhNWEwNTUxXkEyXkFqcGc@._V1_.jpg)
--Pinball Heroes (PS4)-----------------------------------6--(https://image.api.playstation.com/vulcan/ap/rnd/202211/1123/igNhlEey8ZMV7KcmFF8u98Yj.png)
--Hellblade (Steam Deck, PC)-----------------------------8,5--(https://cdnb.artstation.com/p/assets/images/images/017/202/551/large/hugues-giboire-promoart-small.jpg?1555018143)
--Gears of War 2 (Xbox 360)------------------------------8--(https://m.media-amazon.com/images/M/MV5BZmQxMWM3YTEtYTQxMS00YzgyLWFmMDQtY2RkMmM3NDAyODAzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Senua’s Saga: Hellblade II (Xbox Series X)-------------9--(https://m.media-amazon.com/images/M/MV5BZjQzODYwMjEtNTE3ZC00MjgyLTgyMzYtNDk2YzhjZWNmY2E5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Chrono Trigger (Steam Deck)----------------------------10--(https://m.media-amazon.com/images/M/MV5BM2NhYjJhMWYtN2Q3Yy00Y2IxLTg4MTQtZjA2ODk0MjZlMzVhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Elden Ring: Shadow of the Edtree (PC)------------------10--(https://storage.googleapis.com/pod_public/1300/230646.jpg)
--Mafia: Definitive Edition (PC)-------------------------8--(https://m.media-amazon.com/images/M/MV5BZDc2OGM5YjctNjk0Yy00ZGFlLWFiMzgtZTMzYTk2NGUwZjQ5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Black Myth: Wukong (PC)--------------------------------9,5--(https://e.snmc.io/lk/l/x/15fbfbcb60c9ef5c63583f608ea18080/11578144)
--AstroBot (PS5)-----------------------------------------10--(https://upload.wikimedia.org/wikipedia/en/thumb/a/a9/Astro_Bot_cover_art.jpg/250px-Astro_Bot_cover_art.jpg)
--El Escudero Valiente (PS5)-----------------------------8,5--(https://pics.filmaffinity.com/El_escudero_valiente-489638168-large.jpg)
--Mario Kart 7 (3DS)-------------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BZmZlMTU4ZjgtZjIzMS00YThjLTg2MjYtODc2YmVhNGFjNDZlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Metaphor: ReFantazio (PC)------------------------------8--(https://gamefaqs.gamespot.com/a/box/8/9/1/1062891_front.jpg)
--Dragon Ball Z: Sparking Zero (PC)----------------------10--(https://wallpapercave.com/wp/wp14267669.jpg)
--Indiana Jones y el Gran Círculo (PC)-------------------8--(https://iwant.games/wp-content/uploads/indiana-jones-and-the-great-circle-thumb-468x702.jpg)
--Forza Motorsport (PC, Xbox Series X)-------------------8,5--(https://m.media-amazon.com/images/M/MV5BNDk2NmRkOTQtYWM5Zi00MTBjLWEwZjktM2FmY2U5YWNkZGM0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Sonic Lost World (Steam Deck)--------------------------6,5--(https://static.posters.cz/image/1300/16535.jpg)
--Not a Hero (Steam Deck)--------------------------------7--(https://img.opencritic.com/game/888/o/8j36KuuC.jpg)
--Super Mario 3D World: Bowser Fury (Switch)-------------9,5--(https://m.media-amazon.com/images/M/MV5BYTFhZmMyZWQtZDBhMS00YWNiLWI0NTctNTZiYzg4YzYwZjA1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Metal Slug (Steam Deck)--------------------------------8--(https://e.snmc.io/lk/f/x/27308bc654b14258b7944a88c7a954ed/8874851)
-
-2025
--Final Fantasy I Pixel Remaster (PS4)-------------------8,5--(https://yexreviews.wordpress.com/wp-content/uploads/2021/08/final-fantasy-pixel-remaster-cover.jpg)
--Little Inferno: Ho Ho Holiday (Steam Deck)-------------8,5--(https://cdn1.epicgames.com/offer/clover/EGS_LittleInfernoHoHoHolidayEdition_TomorrowCorporation_S2_1200x1600-7b8c6629bc1ebcdcb6cfde23bec43dbc)
--Crash Bandicoot NST (Steam Deck)-----------------------8,5--(https://cdn11.bigcommerce.com/s-yzgoj/images/stencil/1280x1280/products/3229724/6216088/TIARP17223__63016.1709701310.jpg)
--Silent Hill 2 (PS5)------------------------------------9--(https://m.media-amazon.com/images/M/MV5BOTY4NjY0ZDAtNjg5Mi00ZTIwLWJiYTYtYjllNmJlMzM1MGMyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Ghost of Tushima (PS5)---------------------------------9--(https://m.media-amazon.com/images/M/MV5BMzVhMGQyM2ItNTVkNi00NDZiLWFiMDMtMTQwOGE3NzQxZmM2XkEyXkFqcGc@._V1_.jpg)
--Final Fantasy VII Rebirth (PC)-------------------------10--(https://m.media-amazon.com/images/M/MV5BZTNkNzU3NTQtMzAzYy00YzBhLWFiMmMtYzUzZTQ5MmU3OTVlXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--DOOM (PC)----------------------------------------------9--(https://m.media-amazon.com/images/M/MV5BOWEwNThjODUtYTkyZS00MmNmLTk1Y2EtOGU1YTg0NmNmNjYyXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--The Crew 2 (PC)----------------------------------------6,5--(https://cdnx.jumpseller.com/mrjuegoz/image/53348183/thumb/1000/1000?1726353769)
--Sonic Advance (GBA)------------------------------------7--(https://m.media-amazon.com/images/M/MV5BMzYyOTY5NGYtZGM4ZS00N2Y2LWI3OWItOTQ4ZjgyYTgyZGFmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Zelda: Echoes of Wisdow (Switch)-----------------------7,5--(https://pics.filmaffinity.com/the_legend_of_zelda_echoes_of_wisdom-660988922-large.jpg)
--Split Fiction: (PS5)-----------------------------------8,5--(https://m.media-amazon.com/images/M/MV5BMzEzNzQ5MzYtODU0Ni00Y2NiLTg2MGItNzE0ZWU3ODg0OTgzXkEyXkFqcGc@._V1_.jpg)
--South of Midnight (PC)---------------------------------8--(https://m.media-amazon.com/images/M/MV5BMzhmN2ViMWEtYmFiNS00YzBmLTgyYmItM2NmYTlkMzg5ZjQ3XkEyXkFqcGc@._V1_.jpg)
--Spyro Remake (PC)--------------------------------------8--(https://assets.mycast.io/actor_images/actor-spyro-the-dragon-1067538_large.jpg)
--Pokémon Diamante Brillante (Switch)--------------------7,5--(https://wallpaper.forfun.com/fetch/f6/f6a9b41c83124fef664cbc47a493c2e7.jpeg)
--Clair Obscur: Expedition 33 (PC)-----------------------10--(https://i7.imageban.ru/out/2025/04/25/33789b7e92198345bb036ac2478d0ecd.jpg)
--Crash Team Racing Nitro Fueled (Xbox Series X)---------9,5--(https://m.media-amazon.com/images/M/MV5BNWM0MmJlMTEtOGRhZS00MTdkLTkyNWUtOWZhOTY4YjcwN2ZmXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Luigi's Mansion (3DS)----------------------------------7--(https://m.media-amazon.com/images/M/MV5BMzgyZDdkM2MtOGQ1OC00OGY0LTlhNjktNzIxODZhZmQzNjAxXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Resident Evil 7: End of Zoe (PS5)----------------------8--(https://m.media-amazon.com/images/M/MV5BMDM1NWY1OGUtMzdiZC00Njg2LWJkODgtMDcyOThjYjllYjY0XkEyXkFqcGc@._V1_.jpg)
--DOOM: The Dark Ages (PC)-------------------------------9--(https://m.media-amazon.com/images/M/MV5BMGIxMzVjZTctZDI0Zi00MjMzLTgwMzItNGFmZjg3OWJjNzNiXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Super Mario Land (GB)----------------------------------9--(https://howlongtobeat.com/games/9380_Super_Mario_Land.jpg)
--Mario Kart 7 (3DS)-------------------------------------8,5--(https://assetsio.gnwcdn.com/co2146.jpg?width=2048&height=2048&fit=bounds&quality=85&format=jpg&auto=webp)
--Death Stranding 2: On the Beach (PS5)------------------10--(https://static0.polygonimages.com/wordpress/wp-content/uploads/sharedimages/2025/03/death-stranding-2-on-the-beach-tag-page-cover-art.jpg)
--Luto (PS5)---------------------------------------------7--(https://cdn.devuego.es/portadas/min/luto-min.jpg)
--Cyberpunk 2077: Phantom Liberty (PC)-------------------10--(https://cdn1.epicgames.com/offer/77f2b98e2cef40c8a7437518bf420e47/EGS_Cyberpunk2077PhantomLiberty_CDPROJEKTRED_DLC_S2_1200x1600-3acec02a8b11a2c50ba8dd3cb217f1c6)
--Metal Gear Solid: Delta (PC)---------------------------10--(https://i.3djuegos.com/juegos/19104/metal_gear_solid_a_snake_eater/fotos/ficha/metal_gear_solid_a_snake_eater-5820073.webp) 
--Mario Kart World (Switch 2)----------------------------9,5--(https://cdn.cdkeys.com/496x700/media/catalog/product/m/a/mario_kart_world.png)
--Hollow Knight Silksong (PC, Steam Deck)----------------8--(https://i.ebayimg.com/00/s/MTYwMFgxMDY2/z/un0AAOSw-dFnrMN5/$_57.JPG?set_id=880000500F)
--Donkey Kong Bananza (Switch 2)-------------------------9,5--(https://dvdstorespain.es/1063974/frikiverso-placa-decorativa-donkey-kong-bananza-metalica-cuadro-poster-hd.jpg)
--Tony Hawk's Pro Skater 3 + 4 (PC, Xbox Series X)-------9--(https://image.api.playstation.com/vulcan/ap/rnd/202502/2101/322f386a7ffa30527e27e60a04e80016fa6c692dd339962a.jpg)
--Cyberpunk 2077 (PC, Steam Deck)------------------------10--(https://image.api.playstation.com/vulcan/ap/rnd/202008/0416/zQQg225xOUnIVN8ND2DqEPUE.jpg)
--Resident Evil 6 (PS5)----------------------------------7--(https://hot.game/uploads/media/game/0001/10/25ea7234e039a12afc313d631b0a2dadc1b7ff75.jpeg)
--Control (PC)-------------------------------------------8--(https://image.api.playstation.com/vulcan/ap/rnd/202008/2111/kZuu7RcHultdoVUuGsReuGcq.png)
--King of Fighters Ex2 (GBA)-----------------------------8--(https://cdn2.steamgriddb.com/grid/80ed678add0cb94b4461ca0d63823e2d.jpg)
--Keeper (Xbox Series X)---------------------------------8,5--(https://static0.xdaimages.com/wordpress/wp-content/uploads/sharedimages/2025/06/keeper-tag-page-cover-art.jpg)
--Ninja Gaiden 4 (PC)------------------------------------9--(https://cdn.awsli.com.br/600x700/2739/2739953/produto/356601380/26832-ninja-gaiden-4-capa-1-gjna7qcqlc.webp)
--Crash Bandicoot 3: Warped NST (Steam Deck)-------------8--(https://i.pinimg.com/1200x/5c/7f/80/5c7f804857ec9c03c402de38865fdd5f.jpg)
--Control: AWE (PC)--------------------------------------8--(https://m.media-amazon.com/images/M/MV5BNDYxNGE2MmUtZjMwZC00OTQ4LTk1MTUtNWUxNDYwMGE0ZjgxXkEyXkFqcGc@._V1_.jpg)
--Nier Replicant (PC)------------------------------------9--(https://i.ebayimg.com/images/g/dp0AAOSwQFBiveC9/s-l400.jpg)
--Pokémon Leyendas: Z-A (Switch 2)-----------------------6--(https://cdn.cdkeys.com/496x700/media/catalog/product/p/o/poke_mon_legends-_z-a_switch.png)
--Fortnite (PS5, Xbox Series X, Switch 2, PC)------------7--(https://m.media-amazon.com/images/M/MV5BOTAxZTVjYTYtNTIwNi00MjdjLWE4NzEtMzcyNTc1OTcxNjE5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--A Game About Digging a Hole (PC)-----------------------7--(https://cdn.cdkeys.com/496x700/media/catalog/product/d/i/digging_hole.png)
--Marvel Cosmic Invasion (PC)----------------------------8--(https://image.api.playstation.com/vulcan/ap/rnd/202510/2212/e6a9a53d42e4fb14f48f7464c8a00cd906be3699f4719f7a.png)
--Astérix & Obelix: Splat them All (Switch 2)------------7--(https://cdn1.epicgames.com/spt-assets/ef6638aa888e4dd1a8081711fc05277d/download-asterix-and-obelix-slap-them-all-offer-80b4q.jpg)
-
-2026
--Thank Goodness You're Here! (PS4)----------------------9,5--(https://cdn1.epicgames.com/spt-assets/c5b299c039d249e4a8d4aca2dade5c65/thank-goodness-youre-here-18sbt.jpg)
--Alan Wake 2 (PS5)--------------------------------------10--(https://cdn1.epicgames.com/offer/c4763f236d08423eb47b4c3008779c84/EGS_AlanWake2_RemedyEntertainment_S2_1200x1600-c7c8091ddac0f9669c8e5905bca88aaa)
--Lightning Returns: Final Fantasy XIII (Steam Deck)-----6,5--(https://m.media-amazon.com/images/M/MV5BODhhNmI1ZmYtMDIzOS00NTFhLThhMzUtYTk3NmNiM2UzNjgzXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Press Any Buttonv (PC)---------------------------------6--(https://m.media-amazon.com/images/M/MV5BZGNjNzg1ZDItMmZlMC00ZTg3LWJkM2YtYzA0MWMzMzhhOTkyXkEyXkFqcGc@._V1_.jpg)
--Dragon Ball Z Kakarot: Daima Edition (PS5)-------------9--(https://cdn11.bigcommerce.com/s-k0hjo2yyrq/products/18384/images/19501/packshot__66451.1751380881.386.513.png)
--New Super Mario Bros (NDS)-----------------------------8--(https://m.media-amazon.com/images/M/MV5BZDBiOGQyZDQtZjUxMS00ZGRmLWJiNzktYWNjN2Y5OGQyNWQ0XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Resident Evil: Re9uiem (PS5)---------------------------10--(https://m.media-amazon.com/images/M/MV5BNjhlMDQ1OGYtY2Y3Yy00MDMwLTllNWQtNDUxNjU3NDczOWIxXkEyXkFqcGc@._V1_.jpg)
--Dragon Quest VII Reimagined (PC)-----------------------9,5--(https://image.api.playstation.com/vulcan/ap/rnd/202508/1808/3f464bad7833af4df03e9d1d7529bbca205557c784d6b04b.png)
--Sekiro: Shadows Die Twice (PC)-------------------------10--(https://m.media-amazon.com/images/M/MV5BMzFiM2Y3NmMtNDY3MC00MThhLWFhNmYtZjIzMDNjZmNhMTdhXkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
--Reanimal (PC)------------------------------------------8--(https://shop.gameware.at/media/22/e3/64/1755072256/S2-REAN-Reanimal-Cover.jpg)
--Gears of War 3 (Xbox 360)------------------------------8--(https://m.media-amazon.com/images/M/MV5BZjk0ZjMyNGUtYWQ4OS00YTc5LWJmMjEtYWJkZmY0ODU1MDY5XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg)
-`;
-
-/* ==== 2) Parsing & helpers ============================================ */
-const PLATFORM_ALIASES = {
-  "PSX-PS4":"PSX/PS4","Series X":"Xbox Series X","XOne":"Xbox One","Steam Deck-PC":"Steam Deck/PC","PC-XOne":"PC/XOne",
-  "PS5":"PS5","PS4":"PS4","PS3":"PS3","Wii U":"Wii U","Wii":"Wii","Switch":"Switch","Switch 2":"Switch 2","GCN":"GameCube",
-  "PSP":"PSP","Vita":"PS Vita","3DS":"3DS","GBA":"GBA","GB":"Game Boy","SNES":"SNES","Megadrive":"Mega Drive","Móvil":"Móvil"
-};
-const ea = '3';
-
-function parseRaw(block){
-  const lines = block.split('\n').map(l=>l.trim()).filter(Boolean);
-  let year=null, items=[]; let idx=0;
-  const re = /^-(.+?)\s+\((.+?)\)\s*-+\s*([\d,]+m?)(?:--\((.+?)\))?$/i;
-  for(const line of lines){
-    if(/^\d{4}$/.test(line)){ year = parseInt(line,10); continue; }
-    const m = line.match(re);
-    if(m){
-      const title = m[1].replace(/\s+/g,' ').replace(/\s+$/,'');const platformRaw = (PLATFORM_ALIASES[m[2]] || m[2]).replace(/\s+/g,' ').trim();
-      const platforms = platformRaw
-        .split(',')
-        .map(p => p.trim())
-        .filter(Boolean);
-
-      const score = parseFloat(m[3].toLowerCase().replace('m','').replace(',','.'));
-
-      const cover = m[4]?.trim() || null;
-
-      items.push({
-        id: `${year}-${title}(${platformRaw})`,
-        idx: idx++,
-        year,
-        title,
-        platform: platformRaw,
-        platforms,
-        score,
-        cover // 👈 AÑADIDO
-      });
-    }
+async function loadGames() {
+  if (!token()) return;
+  const res = await fetch(`${API_BASE}/games`, { headers: { Authorization: `Bearer ${token()}` } });
+  if (!res.ok) {
+    localStorage.removeItem('accessToken');
+    checkLogin();
+    return;
   }
-  return items;
-}
-const GAMES = parseRaw(RAW);
-const da = '2';
-const COVERS_KEY = 'customGameCovers.v1';
-const loadCovers = ()=> { try { return JSON.parse(localStorage.getItem(COVERS_KEY) || '{}'); } catch { return {}; } };
-const saveCovers = (m)=> localStorage.setItem(COVERS_KEY, JSON.stringify(m));
-
-function autoCover(title, platform, score){
-  const h = [...title].reduce((a,c)=>a+c.charCodeAt(0),0);
-  const hue = h % 360, hue2 = (hue + 40) % 360, sat = 70, light = 45;
-  const size = {w:600, h:800};
-  const esc = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  const level = score>=9.5?'TOP':score>=8.5?'ALTA':score>=7?'MEDIA':'BAJA';
-  const svg = `
-  <svg xmlns="http://www.w3.org/2000/svg" width="${size.w}" height="${size.h}" viewBox="0 0 ${size.w} ${size.h}">
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-        <stop offset="0%" stop-color="hsl(${hue},${sat}%,${light+12}%)"/>
-        <stop offset="100%" stop-color="hsl(${hue2},${sat}%,${light-6}%)"/>
-      </linearGradient>
-      <filter id="grain">
-        <feTurbulence baseFrequency=".9" numOctaves="2" stitchTiles="stitch" type="fractalNoise"/>
-        <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .05 0"/>
-        <feBlend mode="soft-light"/>
-      </filter>
-    </defs>
-    <rect fill="url(#g)" width="100%" height="100%"/>
-    <g filter="url(#grain)"><rect width="100%" height="100%" fill="transparent"/></g>
-    <text x="30" y="80" font-family="Inter, Arial, sans-serif" font-size="28" fill="#dff1ff" opacity=".85">${esc(platform)}</text>
-    <text x="${size.w-30}" y="80" text-anchor="end" font-family="Inter, Arial" font-size="28" fill="#dff1ff" opacity=".85">${level}</text>
-    <foreignObject x="30" y="120" width="${size.w-60}" height="${size.h-240}">
-      <div xmlns="http://www.w3.org/1999/xhtml"
-           style="font-family:Inter, Arial; color:#f6fbff; font-weight:800; font-size:64px; line-height:1.05; display:flex; align-items:center; height:100%;">
-        ${esc(title)}
-      </div>
-    </foreignObject>
-    <circle cx="${size.w-70}" cy="${size.h-70}" r="48" fill="#0b1220cc" stroke="#ffffff44" stroke-width="2"/>
-    <text x="${size.w-70}" y="${size.h-62}" text-anchor="middle" font-family="Inter, Arial" font-weight="700" font-size="28" fill="#c7ffe4">${score.toString().replace('.',',')}</text>
-  </svg>`;
-  return 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
+  const data = await res.json();
+  GAMES = data.items || [];
+  buildFilters();
+  render();
 }
 
-/* ==== 3) UI ============================================================ */
-const $ = s => document.querySelector(s);
-const ca = '1'
-const $$ = s => Array.from(document.querySelectorAll(s));
-const app = $('#app'), yearSel = $('#yearSel'), platformSel = $('#platformSel'),
-      sortSel = $('#sortSel'), minScore = $('#minScore'), minScoreVal = $('#minScoreVal'),
-      q = $('#q'), chips = $('#chips'), meta = $('#meta');
-
-const allYears = [...new Set(GAMES.map(g=>g.year))]; // tal cual aparecen
-const allPlatforms = [...new Set(GAMES.flatMap(g => g.platforms))].sort((a,b)=> a.localeCompare(b,'es'));
-allYears.forEach(y=>{ const o=document.createElement('option'); o.value=y; o.textContent=y; yearSel.appendChild(o); });
-allPlatforms.forEach(p=>{ const o=document.createElement('option'); o.value=p; o.textContent=p; platformSel.appendChild(o); });
-
-function platformChips(){
-  chips.innerHTML='';
-  allPlatforms.forEach(p=>{
-    const c=document.createElement('span'); c.className='chip'; c.textContent=p;
-    c.onclick=()=>{ const o=[...platformSel.options].find(o=>o.value===p); o.selected=!o.selected; c.classList.toggle('active', o.selected); render(); };
+function buildFilters() {
+  yearSel.innerHTML = '<option value="all">Todos los años</option>';
+  platformSel.innerHTML = '';
+  const years = [...new Set(GAMES.map(g => g.year))].sort((a,b)=>b-a);
+  const platforms = [...new Set(GAMES.flatMap(g => g.platforms || []))].sort((a,b)=>a.localeCompare(b,'es'));
+  years.forEach(y => { const o = document.createElement('option'); o.value = y; o.textContent = y; yearSel.appendChild(o); });
+  platforms.forEach(p => { const o = document.createElement('option'); o.value = p; o.textContent = p; platformSel.appendChild(o); });
+  chips.innerHTML = '';
+  platforms.forEach(p => {
+    const c = document.createElement('span'); c.className = 'chip'; c.textContent = p;
+    c.onclick = () => { const o = [...platformSel.options].find(o=>o.value===p); o.selected = !o.selected; render(); };
     chips.appendChild(c);
   });
 }
-platformChips();
 
-function getFilters(){
-  const year = yearSel.value==='all'?null:parseInt(yearSel.value,10);
-  const plats=[...platformSel.selectedOptions].map(o=>o.value);
+function card(g) {
+  return `<div class="card"><div class="body"><div class="title">${g.title}</div><div class="sub">${g.year} · ${(g.platforms||[]).join(', ')} · ${String(g.score).replace('.',',')}</div></div></div>`;
+}
+
+function render() {
+  const year = yearSel.value === 'all' ? null : Number(yearSel.value);
+  const plats = [...platformSel.selectedOptions].map(o=>o.value);
   const term = q.value.trim().toLowerCase();
-  const min = parseFloat(minScore.value);
+  const min = Number(minScore.value);
   const sort = sortSel.value;
-  return {year, plats, term, min, sort};
+
+  let list = GAMES.filter(g => (!year || g.year===year) && (!plats.length || (g.platforms||[]).some(p=>plats.includes(p))) && (!term || g.title.toLowerCase().includes(term)) && g.score>=min);
+  if (sort==='doc') list.sort((a,b)=>a.idx-b.idx);
+  if (sort==='year-desc') list.sort((a,b)=>b.year-a.year);
+  if (sort==='year-asc') list.sort((a,b)=>a.year-b.year);
+  if (sort==='title-asc') list.sort((a,b)=>a.title.localeCompare(b.title,'es'));
+  if (sort==='score-desc') list.sort((a,b)=>b.score-a.score);
+  if (sort==='score-asc') list.sort((a,b)=>a.score-b.score);
+
+  meta.textContent = `Mostrando ${list.length} de ${GAMES.length} juegos`;
+  app.innerHTML = list.length ? `<div class="grid">${list.map(card).join('')}</div>` : '<div class="empty">No hay resultados</div>';
+  minScoreVal.textContent = minScore.value.replace('.', ',');
 }
-const level = s => s>=9.5?'top':s>=8.5?'good':s>=7?'mid':'low';
 
-function gameCard(g){
-  const card = document.createElement('div'); card.className='card';
-  const storedCover = loadCovers()[g.id];
+loginBtn.onclick = login;
+pwdInput.addEventListener('keydown', (e) => { if (e.key === 'Enter') login(); });
+[minScore, q, yearSel, platformSel, sortSel].forEach(el => el.addEventListener('input', render));
 
-  const imgSrc =
-    g.cover ||                 // 1️⃣ portada definida en el RAW
-    storedCover ||             // 2️⃣ portada subida/pegada
-    autoCover(g.title, g.platform, g.score); // 3️⃣ autoportada
-  const cover = document.createElement('a');
-  cover.href = `https://www.google.com/search?q=${encodeURIComponent(g.title + ' ' + g.platform)}&tbm=isch`;
-  cover.target='_blank'; cover.rel='noopener'; cover.className='cover';
-  const img = document.createElement('img'); img.loading='lazy'; img.alt=`Portada de ${g.title}`; img.src=imgSrc; cover.appendChild(img);
-  const b1=document.createElement('div'); b1.className='badge'; b1.textContent=g.platform;
-  const b2=document.createElement('div'); b2.className='score'; b2.dataset.level=level(g.score); b2.textContent=g.score.toString().replace('.',',');
-  cover.append(b1,b2);
-  const body=document.createElement('div'); body.className='body';
-  const title=document.createElement('div'); title.className='title'; title.textContent=g.title;
-  const sub=document.createElement('div'); sub.className='sub'; sub.textContent=`Año: ${g.year}`;
-  const actions=document.createElement('div'); actions.className='actions';
-
-  const btnUrl=document.createElement('button'); btnUrl.className='btn'; btnUrl.textContent='Pegar URL de portada';
-  btnUrl.onclick=()=>{ const url=prompt('Pega URL directa de imagen:', loadCovers()[g.id]||''); if(url){ const map=loadCovers(); map[g.id]=url; saveCovers(map); img.src=url; } };
-
-  const btnUp=document.createElement('button'); btnUp.className='btn'; btnUp.textContent='Subir portada…';
-  const inp=document.createElement('input'); inp.type='file'; inp.accept='image/*'; inp.style.display='none';
-  btnUp.onclick=()=> inp.click();
-  inp.onchange=()=>{ const f=inp.files[0]; if(!f) return; const fr=new FileReader(); fr.onload=()=>{ const map=loadCovers(); map[g.id]=fr.result; saveCovers(map); img.src=fr.result; }; fr.readAsDataURL(f); };
-
-  const btnReset=document.createElement('button'); btnReset.className='btn'; btnReset.textContent='Usar autoportada';
-  btnReset.onclick=()=>{ const map=loadCovers(); delete map[g.id]; saveCovers(map); img.src=autoCover(g.title,g.platform,g.score); };
-
-  actions.append(btnUrl, btnUp, btnReset, inp);
-  body.append(title, sub, actions);
-  card.append(cover, body);
-  return card;
-}
-const fa = '4';
-function render(){
-  const f = getFilters();
-  // activar chips
-  $$('#chips .chip').forEach(ch=> ch.classList.toggle('active', [...platformSel.selectedOptions].some(o=>o.value===ch.textContent)));
-
-  // filtrar
-  let list = GAMES.filter(g=>
-    (f.year ? g.year === f.year : true) &&
-    (f.plats.length ? g.platforms.some(p => f.plats.includes(p)) : true) &&
-    (f.term ? g.title.toLowerCase().includes(f.term) : true) &&
-    (g.score >= f.min)
-  );
-  // ORDENES
-  switch(f.sort){
-    case 'doc':
-      // Mantener orden del documento por idx…
-      list.sort((a,b)=> b.idx - a.idx);
-      break;
-    case 'year-desc':
-      list.sort((a,b)=> b.year-a.year || a.title.localeCompare(b.title,'es')); break;
-    case 'year-asc':
-      list.sort((a,b)=> a.year-b.year || a.title.localeCompare(b.title,'es')); break;
-    case 'title-asc':
-      list.sort((a,b)=> a.title.localeCompare(b.title,'es')); break;
-    case 'score-desc':
-      list.sort((a,b)=> b.score-a.score || a.title.localeCompare(b.title,'es')); break;
-    case 'score-asc':
-      list.sort((a,b)=> a.score-b.score || a.title.localeCompare(b.title,'es')); break;
-  }
-
-  // stats
-  const countsByYear = {};
-
-  list.forEach(g => {
-    countsByYear[g.year] = (countsByYear[g.year] || 0) + 1;
-  });
-  const maxCount = Math.max(...Object.values(countsByYear));
-  const avg = arr => (arr.reduce((s,x)=>s+x.score,0)/Math.max(1,arr.length));
-  meta.textContent = `Mostrando ${list.length} de ${GAMES.length} juegos · Nota media: ${avg(list).toFixed(2).replace('.',',')}`;
-
-  if(!list.length){ app.innerHTML = `<div class="empty">No hay resultados con los filtros actuales.</div>`; return; }
-
-  app.innerHTML='';
-
-  if(f.sort === 'doc'){
-    // ➜ Años de más reciente a más antiguo
-  const yearsDesc = [...new Set(list.map(g => g.year))].sort((a, b) => b - a);
-
-  for (const y of yearsDesc) {
-    const count = countsByYear[y];
-    const pct = Math.round((count / maxCount) * 100);
-
-    const h = document.createElement('h2');
-    h.className = 'year';
-    h.innerHTML = `
-      <div class="year-row">
-        <span>${y}</span>
-        <div class="year-bar">
-          <div class="year-bar-fill" style="width:${pct}%"></div>
-        </div>
-        <span class="year-num">${count}</span>
-      </div>
-    `;
-
-    const grid = document.createElement('div');
-    grid.className = 'grid';
-
-    list
-      .filter(x => x.year === y)
-      .forEach(g => grid.appendChild(gameCard(g)));
-
-    app.append(h, grid);
-  }
-
-  } else if(['title-asc','score-desc','score-asc'].includes(f.sort)){
-    const h = document.createElement('h2'); h.className='year'; h.textContent = 'Resultados';
-    const grid = document.createElement('div'); grid.className='grid';
-    list.forEach(g=> grid.appendChild(gameCard(g)));
-    app.append(h, grid);
-  } else {
-    // year-asc/desc: agrupar por año ordenado
-    const byYear = list.reduce((acc,g)=>{ (acc[g.year] ||= []).push(g); return acc; },{});
-    const years = Object.keys(byYear).map(Number).sort(f.sort==='year-asc'?(a,b)=>a-b:(a,b)=>b-a);
-    for(const y of years){
-      const h = document.createElement('h2'); h.className='year'; h.textContent = y;
-      const grid = document.createElement('div'); grid.className='grid';
-      byYear[y].forEach(g=> grid.appendChild(gameCard(g)));
-      app.append(h, grid);
-    }
-  }
-}
-const ga = '5';
-/* ==== 4) Eventos ======================================================= */
-minScore.addEventListener('input', ()=>{ minScoreVal.textContent = minScore.value.replace('.',','); render(); });
-[q, yearSel, platformSel, sortSel].forEach(el=> el.addEventListener('input', render));
-document.addEventListener('keydown', e=>{ if((e.ctrlKey||e.metaKey) && e.key.toLowerCase()==='k'){ console.log('En contrucción')} });
-
-/* ==== 5) Inicio ======================================================== */
-render();
-  const PASSWORD = ca + da + ea + fa + ga;
-
-  const loginScreen = document.getElementById('loginScreen');
-  const loginBtn = document.getElementById('loginBtn');
-  const pwdInput = document.getElementById('pwd');
-  const loginErr = document.getElementById('loginErr');
-
-  function checkLogin() {
-    if (localStorage.getItem('logged') === '1') {
-      loginScreen.style.display = 'none';
-    } else {
-      loginScreen.style.display = 'flex';
-    }
-  }
-
-  loginBtn.onclick = () => {
-    if (pwdInput.value === PASSWORD) {
-      localStorage.setItem('logged', '1');
-      checkLogin();
-    } else {
-      loginErr.textContent = 'Contraseña incorrecta';
-    }
-  };
-
-  checkLogin();
+checkLogin();
+loadGames();
 </script>
 </body>
 </html>
